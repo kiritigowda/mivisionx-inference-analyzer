@@ -1,3 +1,5 @@
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 # MIVisionX Python Inference Analyzer
 
 [MIVisionX](https://gpuopen-professionalcompute-libraries.github.io/MIVisionX/) Inference Application using pre-trained `ONNX`/`NNEF`/`Caffe` models to analyze images
