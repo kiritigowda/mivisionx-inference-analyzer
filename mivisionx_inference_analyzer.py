@@ -85,6 +85,7 @@ class annieObjectWrapper():
 		return output
 
 # global variables
+verbosePrint = False
 labelNames = None
 colors =[
         (0,153,0),        # Top1
@@ -94,7 +95,7 @@ colors =[
         (255,102,102),    # Top5
         ];
 
-def processClassificationOutput(inputImage, modelName, modelOutput, verbosePrint):
+def processClassificationOutput(inputImage, modelName, modelOutput):
 	# post process output file
 	start = time.time()
 	softmaxOutput = np.float32(modelOutput)
@@ -106,7 +107,7 @@ def processClassificationOutput(inputImage, modelName, modelOutput, verbosePrint
 		topLabels.append(labelNames[x])
 		topProb.append(softmaxOutput[x])
 	end = time.time()
-	if(verbosePrint == 'yes'):
+	if(verbosePrint):
 		print '%30s' % 'Processed results in ', str((end - start)*1000), 'ms'
 
 	# display output
@@ -127,7 +128,7 @@ def processClassificationOutput(inputImage, modelName, modelOutput, verbosePrint
 		cv2.putText(resultImage,txt,(15,t_height+(topK*30+40)),cv2.FONT_HERSHEY_SIMPLEX,0.7,textColor,2)
 		topK = topK + 1
 	end = time.time()
-	if(verbosePrint == 'yes'):
+	if(verbosePrint):
 		print '%30s' % 'Processed results image in ', str((end - start)*1000), 'ms'
 
 	return resultImage, topIndex, topProb
@@ -165,7 +166,10 @@ if __name__ == '__main__':
 	inputAdd = args.add
 	inputMultiply = args.multiply
 	replaceModel = args.replace
-	verbosePrint = args.verbose
+	verbose = args.verbose
+
+	if(verbose != 'no'):
+		verbosePrint = True
 
 	# set paths
 	modelCompilerPath = '/opt/rocm/mivisionx/model_compiler/python'
@@ -216,7 +220,7 @@ if __name__ == '__main__':
 
 	# MIVisionX setup
 	if(os.path.exists(analyzerDir)):
-		print("\nMIVisionX Classifier\n")
+		print("\nMIVisionX Inference Analyzer\n")
 		# replace old model or throw error
 		if(replaceModel == 'yes'):
 			os.system('rm -rf '+modelDir)
@@ -224,7 +228,7 @@ if __name__ == '__main__':
 			print("ERROR: Model exists, use --replace yes option to overwrite or use a different name in --model_name")
 			quit()
 	else:
-		print("\nMIVisionX Classifier Created\n")
+		print("\nMIVisionX Inference Analyzer Created\n")
 		os.system('(cd ; mkdir .mivisionx-inference-analyzer)')
 
 	# Compile Model and generate python .so files
@@ -255,7 +259,7 @@ if __name__ == '__main__':
 			print("ERROR: Converting NNIR to OpenVX Failed")
 			quit()
 	else:
-		print("ERROR: MIVisionX Classifier Failed")
+		print("ERROR: MIVisionX Inference Analyzer Failed")
 		quit()
 
 	# opencv display window
@@ -303,7 +307,7 @@ if __name__ == '__main__':
 			start = time.time()
 			frame = cv2.imread(imageFile)
 			end = time.time()
-			if(verbosePrint == 'yes'):
+			if(verbosePrint):
 				print '%30s' % 'Read Image in ', str((end - start)*1000), 'ms'
 
 			# resize and process frame
@@ -313,23 +317,23 @@ if __name__ == '__main__':
 			if(inputAdd != '' or inputMultiply != ''):
 				RGBframe = ( RGBframe.copy() * Mx) + Ax
 			end = time.time()
-			if(verbosePrint == 'yes'):
+			if(verbosePrint):
 				print '%30s' % 'Input pre-processed in ', str((end - start)*1000), 'ms'
 
 			# run inference
 			start = time.time()
 			output = classifier.classify(RGBframe)
 			end = time.time()
-			if(verbosePrint == 'yes'):
+			if(verbosePrint):
 				print '%30s' % 'Executed Model in ', str((end - start)*1000), 'ms'
 
 			# process output and display
-			resultImage, topIndex, topProb = processClassificationOutput(resizedFrame, modelName, output, verbosePrint)
+			resultImage, topIndex, topProb = processClassificationOutput(resizedFrame, modelName, output)
 			start = time.time()
 			cv2.imshow(windowInput, frame)
 			cv2.imshow(windowResult, resultImage)
 			end = time.time()
-			if(verbosePrint == 'yes'):
+			if(verbosePrint):
 				print '%30s' % 'Processed display in ', str((end - start)*1000), 'ms\n'
 
 			# exit on ESC
@@ -344,7 +348,7 @@ if __name__ == '__main__':
     			','+str(topProb[3])+','+str(topProb[2])+','+str(topProb[1])+','+str(topProb[0]))
     		sys.stdout = orig_stdout
     		end = time.time()
-    		if(verbosePrint == 'yes'):
+			if(verbosePrint):
 				print '%30s' % 'Image result saved in ', str((end - start)*1000), 'ms'
 
     		# create progress image
@@ -396,7 +400,7 @@ if __name__ == '__main__':
 
     		cv2.imshow(windowProgress, progressImage)
     		end = time.time()
-    		if(verbosePrint == 'yes'):
+			if(verbosePrint):
     			print '%30s' % 'Progress image created in ', str((end - start)*1000), 'ms'
 
     		# Calibration
