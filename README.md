@@ -13,21 +13,21 @@ Pre-trained models in [ONNX](https://onnx.ai/), [NNEF](https://www.khronos.org/n
 * Build & Install [MIVisionX](https://github.com/GPUOpen-ProfessionalCompute-Libraries/MIVisionX#linux-1)
 
 ````
-usage: inference_analyzer.py [-h] 
-                             --model_format MODEL_FORMAT 
-                             --model_name MODEL_NAME 
-                             --model MODEL 
-                             --model_input_dims MODEL_INPUT_DIMS 
-                             --model_output_dims MODEL_OUTPUT_DIMS 
-                             --label LABEL 
-                             --output_dir OUTPUT_DIR 
-                             --image_dir IMAGE_DIR
-                             [--image_val IMAGE_VAL] 
-                             [--hierarchy HIERARCHY]
-                             [--add ADD] 
-                             [--multiply MULTIPLY]
-                             [--replace REPLACE] 
-                             [--verbose VERBOSE]
+usage: mivisionx_inference_analyzer.py [-h] 
+                             	       --model_format MODEL_FORMAT 
+                                       --model_name MODEL_NAME 
+                                       --model MODEL 
+                                       --model_input_dims MODEL_INPUT_DIMS 
+                                       --model_output_dims MODEL_OUTPUT_DIMS 
+                                       --label LABEL 
+                                       --output_dir OUTPUT_DIR 
+                                       --image_dir IMAGE_DIR
+                                       [--image_val IMAGE_VAL] 
+                                       [--hierarchy HIERARCHY]
+                                       [--add ADD] 
+                                       [--multiply MULTIPLY]
+                                       [--replace REPLACE] 
+                                       [--verbose VERBOSE]
 
 ````
 ## Usage Help
