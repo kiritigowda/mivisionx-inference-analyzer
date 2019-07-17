@@ -16,7 +16,6 @@ import time
 import numpy
 import numpy as np
 
-from PIL import Image
 from numpy.ctypeslib import ndpointer
 
 class AnnAPI:
@@ -348,7 +347,7 @@ if __name__ == '__main__':
     			','+str(topProb[3])+','+str(topProb[2])+','+str(topProb[1])+','+str(topProb[0]))
     		sys.stdout = orig_stdout
     		end = time.time()
-			if(verbosePrint):
+    		if(verbosePrint):
 				print '%30s' % 'Image result saved in ', str((end - start)*1000), 'ms'
 
     		# create progress image
@@ -400,7 +399,7 @@ if __name__ == '__main__':
 
     		cv2.imshow(windowProgress, progressImage)
     		end = time.time()
-			if(verbosePrint):
+    		if(verbosePrint):
     			print '%30s' % 'Progress image created in ', str((end - start)*1000), 'ms'
 
     		# Calibration
