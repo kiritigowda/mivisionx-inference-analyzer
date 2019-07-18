@@ -149,6 +149,7 @@ usage: mivisionx_inference_analyzer.py [-h]
 	````
 	% cd && mkdir sample-3 && cd sample-3
 	% git clone https://github.com/kiritigowda/MIVisionX-inference-analyzer.git
+	````
 
 	**Note:**
 	* MIVisionX needs to be pre-installed
