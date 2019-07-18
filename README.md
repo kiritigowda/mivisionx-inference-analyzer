@@ -8,6 +8,16 @@
 
 Pre-trained models in [ONNX](https://onnx.ai/), [NNEF](https://www.khronos.org/nnef), & [Caffe](http://caffe.berkeleyvision.org/) formats are supported by MIVisionX. The app first converts the pre-trained models to AMD Neural Net Intermediate Representation (NNIR), once the model has been translated into AMD NNIR (AMD's internal open format), the Optimizer goes through the NNIR and applies various optimizations which would allow the model to be deployed on to target hardware most efficiently. Finally, AMD NNIR is converted into OpenVX C code, which is compiled and wrapped with a python API to run on any targeted hardware.
 
+* [MIVisionX Model Compiler & Optimizer](https://github.com/GPUOpen-ProfessionalCompute-Libraries/MIVisionX/tree/master/model_compiler#neural-net-model-compiler--optimizer)
+* [Prerequisites](#prerequisites)
+* [Usage](#usage)
+	* [Usage help](#usage-help)
+* [Supported Pre-Trained Model Formats](#supported-pre-trained-model-formats)
+* [Samples](#samples)
+	* [Sample-1: Using Pre-Trained ONNX Model](#sample-1---using-pre-trained-onnx-model)
+	* [Sample-2: Using Pre-Trained Caffe Model](#sample-2---using-pre-trained-caffe-model)
+	* [Sample-3: Using Pre-Trained NNEF Model](#sample-3---using-pre-trained-nnef-model)
+
 ## Prerequisites
 
 * Ubuntu `16.04`/`18.04` or CentOS `7.5`/`7.6`
@@ -35,7 +45,7 @@ usage: mivisionx_inference_analyzer.py [-h]
                                        [--verbose VERBOSE]
 
 ````
-### Usage Help
+### Usage help
 
 ```
   -h, --help            show this help message and exit
@@ -55,6 +65,11 @@ usage: mivisionx_inference_analyzer.py [-h]
   --verbose             verbose                              [optional - default:no]
 
 ```
+## Supported Pre-Trained Model Formats
+* Caffe
+* NNEF
+* ONNX
+
 ## Samples
 
 ### Sample 1 - Using Pre-Trained ONNX Model
@@ -65,7 +80,7 @@ usage: mivisionx_inference_analyzer.py [-h]
 
 	````
 	% cd && mkdir sample-1 && cd sample-1
-	% https://github.com/kiritigowda/MIVisionX-inference-analyzer.git
+	% git clone https://github.com/kiritigowda/MIVisionX-inference-analyzer.git
 	````
 
 	**Note:**
@@ -91,4 +106,71 @@ usage: mivisionx_inference_analyzer.py [-h]
 	* Run SqueezeNet Inference Analyzer
 	```
 	% python mivisionx_inference_analyzer.py --model_format onnx --model_name SqueezeNet --model ~/sample-1/squeezenet/model.onnx --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-1/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
+	```
+
+### Sample 2 - Using Pre-Trained Caffe Model
+
+### Run VGG 16 on sample images
+
+* **Step 1:** Clone MIVisionX Inference Analyzer Project
+
+	````
+	% cd && mkdir sample-2 && cd sample-2
+	% git clone https://github.com/kiritigowda/MIVisionX-inference-analyzer.git
+	````
+
+	**Note:**
+	* MIVisionX needs to be pre-installed
+	* MIVisionX Model Compiler & Optimizer scripts are at `/opt/rocm/mivisionx/model_compiler/python/`
+
+* **Step 2:** Download pre-trained VGG 16 caffe model - [VGG_ILSVRC_16_layers.caffemodel](http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_16_layers.caffemodel)
+	````
+	% wget http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_16_layers.caffemodel
+	````
+* **Step 3:** Use the command below to run the inference analyzer
+
+	* View inference analyzer usage
+	```
+	% cd ~/sample-2/MIVisionX-inference-analyzer/
+	% python mivisionx_inference_analyzer.py -h
+	```
+	
+	* Run VGGNet-16 Inference Analyzer
+	```
+	% python mivisionx_inference_analyzer.py --model_format caffe --model_name VggNet-16-Caffe --model ~/sample-2/VGG_ILSVRC_16_layers.caffemodel --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-2/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
+	```
+	
+## Sample 3 - Using Pre-Trained NNEF Model
+
+### Run VGG 16 on sample images
+
+* **Step 1:** Clone MIVisionX Inference Analyzer Project
+
+	````
+	% cd && mkdir sample-3 && cd sample-3
+	% git clone https://github.com/kiritigowda/MIVisionX-inference-analyzer.git
+
+	**Note:**
+	* MIVisionX needs to be pre-installed
+	* MIVisionX Model Compiler & Optimizer scripts are at `/opt/rocm/mivisionx/model_compiler/python/`
+	* NNEF model conversion requires [NNEF python parser](https://github.com/KhronosGroup/NNEF-Tools/tree/master/parser#nnef-parser-project) installed
+
+* **Step 2:** Download pre-trained VGG 16 NNEF model
+	````
+	% mkdir ~/sample-3/vgg16
+	% cd ~/sample-3/vgg16
+	% wget https://sfo2.digitaloceanspaces.com/nnef-public/vgg16.onnx.nnef.tgz
+	% tar -xvf vgg16.onnx.nnef.tgz
+	````
+* **Step 3:** Use the command below to run the inference analyzer
+
+	* View inference analyzer usage
+	```
+	% cd ~/sample-3/MIVisionX-inference-analyzer/
+	% python mivisionx_inference_analyzer.py -h
+	```
+	
+	* Run VGGNet-16 Inference Analyzer
+	```
+	% python mivisionx_inference_analyzer.py --model_format nnef --model_name VggNet-16-NNEF --model ~/sample-3/vgg16/ --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-3/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
 	```
