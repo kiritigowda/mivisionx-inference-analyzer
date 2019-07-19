@@ -137,20 +137,20 @@ def processClassificationOutput(inputImage, modelName, modelOutput):
 # MIVisionX Classifier
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
-	parser.add_argument('--model_format',    	type=str, required=True,  help='pre-trained model format, options:caffe/onnx/nnef [required]')
-	parser.add_argument('--model_name',  		type=str, required=True,  help='model name [required]')
-	parser.add_argument('--model',    		 	type=str, required=True,  help='pre_trained model file [required]')
-	parser.add_argument('--model_input_dims',   type=str, required=True,  help='c,h,w - channel,height,width [required]')
-	parser.add_argument('--model_output_dims',  type=str, required=True,  help='c,h,w - channel,height,width [required]')
-	parser.add_argument('--label',  			type=str, required=True,  help='labels text file [required]')
-	parser.add_argument('--output_dir', 		type=str, required=True,  help='output dir to store ADAT results [required]')
-	parser.add_argument('--image_dir', 			type=str, required=True,  help='image directory for analysis [required]')
-	parser.add_argument('--image_val', 			type=str, default='',  	  help='image list with ground truth [optional]')
-	parser.add_argument('--hierarchy', 			type=str, default='',  	  help='AMD proprietary hierarchical file [optional]')
-	parser.add_argument('--add', 				type=str, default='',     help='input preprocessing factor [optional - default:0]')
-	parser.add_argument('--multiply', 			type=str, default='',     help='input preprocessing factor [optional - default:1]')
-	parser.add_argument('--replace', 			type=str, default='no',   help='replace/overwrite model [optional - default:no]')
-	parser.add_argument('--verbose', 			type=str, default='no',   help='verbose [optional - default:no]')
+	parser.add_argument('--model_format',		type=str, required=True,	help='pre-trained model format, options:caffe/onnx/nnef [required]')
+	parser.add_argument('--model_name',			type=str, required=True,	help='model name [required]')
+	parser.add_argument('--model',				type=str, required=True,	help='pre_trained model file [required]')
+	parser.add_argument('--model_input_dims',	type=str, required=True,	help='c,h,w - channel,height,width [required]')
+	parser.add_argument('--model_output_dims',	type=str, required=True,	help='c,h,w - channel,height,width [required]')
+	parser.add_argument('--label',				type=str, required=True,	help='labels text file [required]')
+	parser.add_argument('--output_dir',			type=str, required=True,	help='output dir to store ADAT results [required]')
+	parser.add_argument('--image_dir',			type=str, required=True,	help='image directory for analysis [required]')
+	parser.add_argument('--image_val',			type=str, default='',		help='image list with ground truth [optional]')
+	parser.add_argument('--hierarchy',			type=str, default='',		help='AMD proprietary hierarchical file [optional]')
+	parser.add_argument('--add',				type=str, default='',		help='input preprocessing factor [optional - default:0]')
+	parser.add_argument('--multiply',			type=str, default='',		help='input preprocessing factor [optional - default:1]')
+	parser.add_argument('--replace',			type=str, default='no',		help='replace/overwrite model [optional - default:no]')
+	parser.add_argument('--verbose',			type=str, default='no',		help='verbose [optional - default:no]')
 	args = parser.parse_args()
 
 	# get arguments
@@ -422,7 +422,7 @@ if __name__ == '__main__':
 				break
 
 			# Calibration
-    		# TBD:
+				# TBD:
 
 	print("\nSUCCESS: Images Inferenced with the Model\n")
 	cv2.destroyWindow(windowInput)
