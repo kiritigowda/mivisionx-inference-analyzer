@@ -447,3 +447,6 @@ if __name__ == '__main__':
 			break        
 		if cv2.getWindowProperty(windowProgress,cv2.WND_PROP_VISIBLE) < 1:        
 			break
+
+	outputHTMLFile = os.path.expanduser(adatOutputDir+'/'+modelName+'-ADAT-toolKit/index.html')
+	os.system('firefox '+outputHTMLFile)
