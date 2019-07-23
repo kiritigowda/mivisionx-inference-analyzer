@@ -17,6 +17,18 @@ import numpy
 import numpy as np
 from numpy.ctypeslib import ndpointer
 
+# global variables
+FP16inference = False
+verbosePrint = False
+labelNames = None
+colors =[
+        (0,153,0),        # Top1
+        (153,153,0),      # Top2
+        (153,76,0),       # Top3
+        (0,128,255),      # Top4
+        (255,102,102),    # Top5
+        ];
+
 # AMD Neural Net python wrapper
 class AnnAPI:
 	def __init__(self,library):
@@ -68,11 +80,11 @@ class annieObjectWrapper():
 		img_g = img[:,:,1]
 		img_b = img[:,:,2]
 		img_t = np.concatenate((img_r, img_g, img_b), 0)	
-		# copy input.f32 to inference input
+		# copy input f32 to inference input
 		status = self.api.annCopyToInferenceInput(self.hdl, np.ascontiguousarray(img_t, dtype=np.float32), (img.shape[0]*img.shape[1]*3*4), 0)
 		# run inference
 		status = self.api.annRunInference(self.hdl, 1)
-		# copy output.f32
+		# copy output f32
 		status = self.api.annCopyFromInferenceOutput(self.hdl, np.ascontiguousarray(out, dtype=np.float32), out.nbytes)
 		return out
 
@@ -80,20 +92,9 @@ class annieObjectWrapper():
 		# create output.f32 buffer
 		out_buf = bytearray(self.outputDim[0]*self.outputDim[1]*self.outputDim[2]*self.outputDim[3]*4)
 		out = np.frombuffer(out_buf, dtype=numpy.float32)
-		# run inference & receive output.f32
+		# run inference & receive output
 		output = self.runInference(img, out)
 		return output
-
-# global variables
-verbosePrint = False
-labelNames = None
-colors =[
-        (0,153,0),        # Top1
-        (153,153,0),      # Top2
-        (153,76,0),       # Top3
-        (0,128,255),      # Top4
-        (255,102,102),    # Top5
-        ];
 
 # process classification output function
 def processClassificationOutput(inputImage, modelName, modelOutput):
@@ -138,19 +139,20 @@ def processClassificationOutput(inputImage, modelName, modelOutput):
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser()
 	parser.add_argument('--model_format',		type=str, required=True,	help='pre-trained model format, options:caffe/onnx/nnef [required]')
-	parser.add_argument('--model_name',			type=str, required=True,	help='model name [required]')
-	parser.add_argument('--model',				type=str, required=True,	help='pre_trained model file [required]')
-	parser.add_argument('--model_input_dims',	type=str, required=True,	help='c,h,w - channel,height,width [required]')
-	parser.add_argument('--model_output_dims',	type=str, required=True,	help='c,h,w - channel,height,width [required]')
-	parser.add_argument('--label',				type=str, required=True,	help='labels text file [required]')
-	parser.add_argument('--output_dir',			type=str, required=True,	help='output dir to store ADAT results [required]')
-	parser.add_argument('--image_dir',			type=str, required=True,	help='image directory for analysis [required]')
-	parser.add_argument('--image_val',			type=str, default='',		help='image list with ground truth [optional]')
-	parser.add_argument('--hierarchy',			type=str, default='',		help='AMD proprietary hierarchical file [optional]')
+	parser.add_argument('--model_name',			type=str, required=True,	help='model name                             [required]')
+	parser.add_argument('--model',				type=str, required=True,	help='pre_trained model file                 [required]')
+	parser.add_argument('--model_input_dims',	type=str, required=True,	help='c,h,w - channel,height,width           [required]')
+	parser.add_argument('--model_output_dims',	type=str, required=True,	help='c,h,w - channel,height,width           [required]')
+	parser.add_argument('--label',				type=str, required=True,	help='labels text file                       [required]')
+	parser.add_argument('--output_dir',			type=str, required=True,	help='output dir to store ADAT results       [required]')
+	parser.add_argument('--image_dir',			type=str, required=True,	help='image directory for analysis           [required]')
+	parser.add_argument('--image_val',			type=str, default='',		help='image list with ground truth           [optional]')
+	parser.add_argument('--hierarchy',			type=str, default='',		help='AMD proprietary hierarchical file      [optional]')
 	parser.add_argument('--add',				type=str, default='',		help='input preprocessing factor [optional - default:0]')
 	parser.add_argument('--multiply',			type=str, default='',		help='input preprocessing factor [optional - default:1]')
-	parser.add_argument('--replace',			type=str, default='no',		help='replace/overwrite model [optional - default:no]')
-	parser.add_argument('--verbose',			type=str, default='no',		help='verbose [optional - default:no]')
+	parser.add_argument('--fp16',				type=str, default='no',		help='quantize to FP16 			[optional - default:no]')
+	parser.add_argument('--replace',			type=str, default='no',		help='replace/overwrite model   [optional - default:no]')
+	parser.add_argument('--verbose',			type=str, default='no',		help='verbose                   [optional - default:no]')
 	args = parser.parse_args()
 
 	# get arguments
@@ -166,12 +168,17 @@ if __name__ == '__main__':
 	hierarchy = args.hierarchy
 	inputAdd = args.add
 	inputMultiply = args.multiply
+	fp16 = args.fp16
 	replaceModel = args.replace
 	verbose = args.verbose
 
 	# set verbose print
 	if(verbose != 'no'):
 		verbosePrint = True
+
+	# set fp16 inference turned on/off
+	if(fp16 != 'no'):
+		FP16inference = True
 
 	# set paths
 	modelCompilerPath = '/opt/rocm/mivisionx/model_compiler/python'
@@ -246,6 +253,10 @@ if __name__ == '__main__':
 		else:
 			print("ERROR: Neural Network Format Not supported, use caffe/onnx/nnef in arugment --model_format")
 			quit()
+		# convert the model to FP16
+		if(FP16inference):
+			os.system('(cd '+modelDir+'; python '+modelCompilerPath+'/nnir_update.py --convert-fp16 1 --fuse-ops 1 nnir-files nnir-files)')
+			print("\nModel Quantized to FP16\n")
 		# convert to openvx
 		if(os.path.exists(nnirDir)):
 			os.system('(cd '+modelDir+'; python '+modelCompilerPath+'/nnir_to_openvx.py nnir-files openvx-files)')
