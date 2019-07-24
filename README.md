@@ -17,6 +17,8 @@ Pre-trained models in [ONNX](https://onnx.ai/), [NNEF](https://www.khronos.org/n
 * MIVisionX Inference Analyzer - Results
 <p align="center"><img width="100%" src="data/images/analyzer-3.png" /></p>
 
+## Analyzer Index
+
 * [MIVisionX Model Compiler & Optimizer](https://github.com/GPUOpen-ProfessionalCompute-Libraries/MIVisionX/tree/master/model_compiler#neural-net-model-compiler--optimizer)
 * [Prerequisites](#prerequisites)
 	* [Docker for MIVisionX Inference Analyzer](#use-mivisionx-docker)
