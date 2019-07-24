@@ -153,6 +153,8 @@ usage: mivisionx_inference_analyzer.py [-h]
 
 ### Run VGG 16 on sample images
 
+<p align="center"><img width="40%" src="data/images/sample-2-1.png" /></p>
+
 * **Step 1:** Clone MIVisionX Inference Analyzer Project
 
 	````
@@ -180,10 +182,13 @@ usage: mivisionx_inference_analyzer.py [-h]
 	```
 	% python mivisionx_inference_analyzer.py --model_format caffe --model_name VggNet-16-Caffe --model ~/sample-2/VGG_ILSVRC_16_layers.caffemodel --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-2/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
 	```
-	
+<p align="center"><img width="100%" src="data/images/sample-2-2.png" /></p>
+
 ## Sample 3 - Using Pre-Trained NNEF Model
 
 ### Run VGG 16 on sample images
+
+<p align="center"><img width="40%" src="data/images/sample-3-1.png" /></p>
 
 * **Step 1:** Clone MIVisionX Inference Analyzer Project
 
@@ -216,3 +221,4 @@ usage: mivisionx_inference_analyzer.py [-h]
 	```
 	% python mivisionx_inference_analyzer.py --model_format nnef --model_name VggNet-16-NNEF --model ~/sample-3/vgg16/ --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-3/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
 	```
+<p align="center"><img width="100%" src="data/images/sample-3-2.png" /></p>
