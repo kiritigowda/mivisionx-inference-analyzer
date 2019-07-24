@@ -102,6 +102,9 @@ usage: mivisionx_inference_analyzer.py [-h]
 
 ```
 ## Supported Pre-Trained Model Formats
+
+<p align="center"><img width="50%" src="https://raw.githubusercontent.com/GPUOpen-ProfessionalCompute-Libraries/MIVisionX/master/docs/images/modelCompilerFrameWorks.png" /></p>
+
 * Caffe
 * NNEF
 * ONNX
