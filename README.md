@@ -2,7 +2,7 @@
 
 # MIVisionX Python Inference Analyzer
 
-[MIVisionX](https://gpuopen-professionalcompute-libraries.github.io/MIVisionX/) Inference Application using pre-trained `ONNX`/`NNEF`/`Caffe` models to analyze images
+[MIVisionX](https://gpuopen-professionalcompute-libraries.github.io/MIVisionX/) Inference Analyzer Application using pre-trained `ONNX`/`NNEF`/`Caffe` models to analyze and summarize images.
 
 <p align="center"><img width="60%" src="data/images/inference_analyzer.gif" /></p>
 
