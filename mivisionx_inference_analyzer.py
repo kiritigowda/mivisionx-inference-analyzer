@@ -148,7 +148,7 @@ if __name__ == '__main__':
 	parser.add_argument('--image_dir',			type=str, required=True,	help='image directory for analysis           [required]')
 	parser.add_argument('--image_val',			type=str, default='',		help='image list with ground truth           [optional]')
 	parser.add_argument('--hierarchy',			type=str, default='',		help='AMD proprietary hierarchical file      [optional]')
-	parser.add_argument('--add',				type=str, default='',		help='input preprocessing factor [optional - default:0]')
+	parser.add_argument('--add',				type=str, default='', 		help='input preprocessing factor [optional - default:0]')
 	parser.add_argument('--multiply',			type=str, default='',		help='input preprocessing factor [optional - default:1]')
 	parser.add_argument('--fp16',				type=str, default='no',		help='quantize to FP16 			[optional - default:no]')
 	parser.add_argument('--replace',			type=str, default='no',		help='replace/overwrite model   [optional - default:no]')
@@ -206,12 +206,12 @@ if __name__ == '__main__':
 	c_o = int(str_c_o); h_o = int(str_h_o); w_o = int(str_w_o)
 
 	# input pre-processing values
-	Ax=0
+	Ax=[0,0,0]
 	if(inputAdd != ''):
-		Ax = float(inputAdd)
-	Mx=1
+		Ax = [float(item) for item in inputAdd.strip("[]").split(',')]
+	Mx=[1,1,1]
 	if(inputMultiply != ''):
-		Mx = float(inputMultiply)
+		Mx = [float(item) for item in inputMultiply.strip("[]").split(',')]
 
 	# check pre-trained model
 	if(not os.path.isfile(trainedModel) and modelFormat != 'nnef' ):
@@ -330,7 +330,10 @@ if __name__ == '__main__':
 			resizedFrame = cv2.resize(frame, (w_i,h_i))
 			RGBframe = cv2.cvtColor(resizedFrame, cv2.COLOR_BGR2RGB)
 			if(inputAdd != '' or inputMultiply != ''):
-				RGBframe = ( RGBframe.copy() * Mx) + Ax
+				pFrame = np.zeros(RGBframe.shape).astype('float32')
+				for i in range(RGBframe.shape[2]):
+					pFrame[:,:,i] = RGBframe.copy()[:,:,i] * Mx[i] + Ax[i]
+				RGBframe = pFrame
 			end = time.time()
 			if(verbosePrint):
 				print '%30s' % 'Input pre-processed in ', str((end - start)*1000), 'ms'
