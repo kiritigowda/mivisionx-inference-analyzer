@@ -94,8 +94,8 @@ usage: mivisionx_inference_analyzer.py [-h]
   --image_dir           image directory for analysis                      [required]
   --image_val           image list with ground truth                      [optional]
   --hierarchy           AMD proprietary hierarchical file                 [optional]
-  --add                 input preprocessing factor            [optional - default:0]
-  --multiply            input preprocessing factor            [optional - default:1]
+  --add                 input preprocessing factor            [optional - default:[0,0,0]]
+  --multiply            input preprocessing factor            [optional - default:[1,1,1]]
   --fp16                quantize model to FP16 		     [optional - default:no]
   --replace             replace/overwrite model              [optional - default:no]
   --verbose             verbose                              [optional - default:no]
@@ -226,3 +226,6 @@ usage: mivisionx_inference_analyzer.py [-h]
 	```
 	% python mivisionx_inference_analyzer.py --model_format nnef --model_name VggNet-16-NNEF --model ~/sample-3/vgg16/ --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-3/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes
 	```
+* **Preprocessing the model:** Use the --add/--multiply option to preprocess the input images
+
+		% python mivisionx_inference_analyzer.py --model_format nnef --model_name VggNet-16-NNEF --model ~/sample-3/vgg16/ --model_input_dims 3,224,224 --model_output_dims 1000,1,1 --label ./sample/labels.txt --output_dir ~/sample-3/ --image_dir ./sample/AMD-tinyDataSet --image_val ./sample/AMD-tinyDataSet-val.txt --hierarchy ./sample/hierarchy.csv --replace yes --add [-2.1179,-2.0357,-1.8044] --multiply [0.0171,0.0175,0.0174]
