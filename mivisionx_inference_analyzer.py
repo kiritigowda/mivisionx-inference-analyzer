@@ -240,6 +240,13 @@ if __name__ == '__main__':
 		print("\nMIVisionX Inference Analyzer Created\n")
 		os.system('(cd ; mkdir .mivisionx-inference-analyzer)')
 
+	# Setup Text File for Demo
+	if (os.path.exists(analyzerDir)):
+		f = open(analyzerDir + "/setupFile.txt", "w+")
+		f.write(modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+		f.close()
+		
+
 	# Compile Model and generate python .so files
 	os.system('mkdir '+modelDir)
 	if(os.path.exists(modelDir)):
