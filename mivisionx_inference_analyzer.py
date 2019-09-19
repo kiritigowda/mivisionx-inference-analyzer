@@ -241,11 +241,28 @@ if __name__ == '__main__':
 		os.system('(cd ; mkdir .mivisionx-inference-analyzer)')
 
 	# Setup Text File for Demo
-	if (os.path.exists(analyzerDir)):
-		f = open(analyzerDir + "/setupFile.txt", "w+")
+	if (not os.path.isfile(analyzerDir + "/setupFile.txt")):
+		f = open(analyzerDir + "/setupFile.txt", "w")
 		f.write(modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
 		f.close()
-		
+	else:
+		count = len(open(analyzerDir + "/setupFile.txt").readlines())
+		if count < 10:
+			f = open(analyzerDir + "/setupFile.txt", "a")
+			f.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+			f.close()
+		else:
+			with open(analyzerDir + "/setupFile.txt", "r") as fin:
+				data = fin.read().splitlines(True)
+			delModelName = data[0].split(';')[1]
+			delmodelPath = analyzerDir + '/' + delModelName + '_dir'
+			if(os.path.exists(delmodelPath)): 
+				os.system('rm -rf ' + delmodelPath)
+			with open(analyzerDir + "/setupFile.txt", "w") as fout:
+			    fout.writelines(data[1:])
+			with open(analyzerDir + "/setupFile.txt", "a") as fappend:
+				fappend.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+				fappend.close()
 
 	# Compile Model and generate python .so files
 	os.system('mkdir '+modelDir)
