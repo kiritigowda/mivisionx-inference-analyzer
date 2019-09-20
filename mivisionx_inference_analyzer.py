@@ -468,13 +468,15 @@ if __name__ == '__main__':
 
 	# Create ADAT folder and file
 	print("\nADAT tool called to create the analysis toolkit\n")
-	if(os.path.exists(adatOutputDir)):
-		if(hierarchy == ''):
-			os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-			' -d '+inputImageDir+' -l '+labelText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
-		else:
-			os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-			' -d '+inputImageDir+' -l '+labelText+' -h '+hierarchyText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+	if(not os.path.exists(adatOutputDir)):
+		os.system('mkdir ' + adatOutputDir)
+	
+	if(hierarchy == ''):
+		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
+		' -d '+inputImageDir+' -l '+labelText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+	else:
+		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
+		' -d '+inputImageDir+' -l '+labelText+' -h '+hierarchyText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
 	print("\nSUCCESS: Image Analysis Toolkit Created\n")
 	print("Press ESC to exit or close progess window\n")
 
