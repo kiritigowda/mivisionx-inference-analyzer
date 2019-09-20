@@ -240,6 +240,30 @@ if __name__ == '__main__':
 		print("\nMIVisionX Inference Analyzer Created\n")
 		os.system('(cd ; mkdir .mivisionx-inference-analyzer)')
 
+	# Setup Text File for Demo
+	if (not os.path.isfile(analyzerDir + "/setupFile.txt")):
+		f = open(analyzerDir + "/setupFile.txt", "w")
+		f.write(modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+		f.close()
+	else:
+		count = len(open(analyzerDir + "/setupFile.txt").readlines())
+		if count < 10:
+			f = open(analyzerDir + "/setupFile.txt", "a")
+			f.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+			f.close()
+		else:
+			with open(analyzerDir + "/setupFile.txt", "r") as fin:
+				data = fin.read().splitlines(True)
+			delModelName = data[0].split(';')[1]
+			delmodelPath = analyzerDir + '/' + delModelName + '_dir'
+			if(os.path.exists(delmodelPath)): 
+				os.system('rm -rf ' + delmodelPath)
+			with open(analyzerDir + "/setupFile.txt", "w") as fout:
+			    fout.writelines(data[1:])
+			with open(analyzerDir + "/setupFile.txt", "a") as fappend:
+				fappend.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ","") + ';' + str(Mx).strip('[]').replace(" ","") + ';' + fp16 + ';' + replaceModel)
+				fappend.close()
+
 	# Compile Model and generate python .so files
 	os.system('mkdir '+modelDir)
 	if(os.path.exists(modelDir)):
@@ -444,13 +468,15 @@ if __name__ == '__main__':
 
 	# Create ADAT folder and file
 	print("\nADAT tool called to create the analysis toolkit\n")
-	if(os.path.exists(adatOutputDir)):
-		if(hierarchy == ''):
-			os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-			' -d '+inputImageDir+' -l '+labelText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
-		else:
-			os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-			' -d '+inputImageDir+' -l '+labelText+' -h '+hierarchyText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+	if(not os.path.exists(adatOutputDir)):
+		os.system('mkdir ' + adatOutputDir)
+	
+	if(hierarchy == ''):
+		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
+		' -d '+inputImageDir+' -l '+labelText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+	else:
+		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
+		' -d '+inputImageDir+' -l '+labelText+' -h '+hierarchyText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
 	print("\nSUCCESS: Image Analysis Toolkit Created\n")
 	print("Press ESC to exit or close progess window\n")
 
