@@ -87,7 +87,7 @@ usage: python mivisionx_inference_analyzer.py 	[-h]
   -h, --help            show this help message and exit
   --model_format        pre-trained model format, options:caffe/onnx/nnef [required]
   --model_name          model name                                        [required]
-  --model               pre_trained model file                            [required]
+  --model               pre_trained model file/folder                     [required]
   --model_input_dims    c,h,w - channel,height,width                      [required]
   --model_output_dims   c,h,w - channel,height,width                      [required]
   --label               labels text file                                  [required]
