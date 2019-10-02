@@ -492,11 +492,11 @@ if __name__ == '__main__':
 		os.system('mkdir ' + adatOutputDir)
 	
 	if(hierarchy == ''):
-		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-		' -d '+inputImageDir+' -l '+labelText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+		os.system('python '+ADATPath+'/generate-visualization.py --inference_results '+finalImageResultsFile+
+		' --image_dir '+inputImageDir+' --label '+labelText+' --model_name '+modelName+' --output_dir '+adatOutputDir+' --output_name '+modelName+'-ADAT')
 	else:
-		os.system('python '+ADATPath+'/generate-visualization.py -i '+finalImageResultsFile+
-		' -d '+inputImageDir+' -l '+labelText+' -h '+hierarchyText+' -m '+modelName+' -o '+adatOutputDir+' -f '+modelName+'-ADAT')
+		os.system('python '+ADATPath+'/generate-visualization.py --inference_results '+finalImageResultsFile+
+		' --image_dir '+inputImageDir+' --label '+labelText+' --hierarchy '+hierarchyText+' --model_name '+modelName+' --output_dir '+adatOutputDir+' --output_name '+modelName+'-ADAT')
 	print("\nSUCCESS: Image Analysis Toolkit Created\n")
 	print("Press ESC to exit or close progess window\n")
 
