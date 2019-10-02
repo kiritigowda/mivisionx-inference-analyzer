@@ -1,5 +1,6 @@
 __author__      = "Kiriti Nagesh Gowda"
 __copyright__   = "Copyright 2019, AMD MIVisionX"
+__credits__     = ["Hansel Yang; Lakshmi Kumar;"]
 __license__     = "MIT"
 __version__     = "0.9.5"
 __maintainer__  = "Kiriti Nagesh Gowda"
@@ -162,7 +163,7 @@ if __name__ == '__main__':
 		parser = argparse.ArgumentParser()
 		parser.add_argument('--model_format',		type=str, required=True,	help='pre-trained model format, options:caffe/onnx/nnef [required]')
 		parser.add_argument('--model_name',			type=str, required=True,	help='model name                             [required]')
-		parser.add_argument('--model',				type=str, required=True,	help='pre_trained model file                 [required]')
+		parser.add_argument('--model',				type=str, required=True,	help='pre_trained model file/folder          [required]')
 		parser.add_argument('--model_input_dims',	type=str, required=True,	help='c,h,w - channel,height,width           [required]')
 		parser.add_argument('--model_output_dims',	type=str, required=True,	help='c,h,w - channel,height,width           [required]')
 		parser.add_argument('--label',				type=str, required=True,	help='labels text file                       [required]')
