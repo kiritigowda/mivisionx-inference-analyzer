@@ -1,7 +1,7 @@
 __author__      = "Kiriti Nagesh Gowda"
 __copyright__   = "Copyright 2019, AMD MIVisionX"
 __license__     = "MIT"
-__version__     = "0.9.0"
+__version__     = "0.9.5"
 __maintainer__  = "Kiriti Nagesh Gowda"
 __email__       = "Kiriti.NageshGowda@amd.com"
 __status__      = "ALPHA"
@@ -489,9 +489,7 @@ if __name__ == '__main__':
 			if key == 27: 
 				break
 
-			# Calibration
-				# TBD:
-
+	# Inference Analyzer Successful
 	print("\nSUCCESS: Images Inferenced with the Model\n")
 	cv2.destroyWindow(windowInput)
 	cv2.destroyWindow(windowResult)
@@ -510,6 +508,7 @@ if __name__ == '__main__':
 	print("\nSUCCESS: Image Analysis Toolkit Created\n")
 	print("Press ESC to exit or close progess window\n")
 
+	# Wait to quit
 	while True:
 		key = cv2.waitKey(2)
 		if key == 27:
