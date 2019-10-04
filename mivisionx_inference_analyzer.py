@@ -358,7 +358,7 @@ if __name__ == '__main__':
 	# original std out location 
 	orig_stdout = sys.stdout
 	# setup results output file
-	sys.stdout = open(finalImageResultsFile,'a')
+	sys.stdout = open(finalImageResultsFile,'w')
 	print('Image File Name,Ground Truth Label,Output Label 1,Output Label 2,Output Label 3,\
     		Output Label 4,Output Label 5,Prob 1,Prob 2,Prob 3,Prob 4,Prob 5')
 	sys.stdout = orig_stdout
