@@ -58,7 +58,6 @@ class AnnAPI:
 # classifier definition
 class annieObjectWrapper():
 	def __init__(self, annpythonlib, weightsfile):
-		select = 1
 		self.api = AnnAPI(annpythonlib)
 		input_info,output_info,empty = self.api.annQueryInference().decode("utf-8").split(';')
 		input,name,n_i,c_i,h_i,w_i = input_info.split(',')
@@ -84,10 +83,16 @@ class annieObjectWrapper():
 		img_t = np.concatenate((img_r, img_g, img_b), 0)	
 		# copy input f32 to inference input
 		status = self.api.annCopyToInferenceInput(self.hdl, np.ascontiguousarray(img_t, dtype=np.float32), (img.shape[0]*img.shape[1]*3*4), 0)
+		if(status):
+				print('ERROR: annCopyToInferenceInput Failed ')
 		# run inference
 		status = self.api.annRunInference(self.hdl, 1)
+		if(status):
+				print('ERROR: annRunInference Failed ')
 		# copy output f32
 		status = self.api.annCopyFromInferenceOutput(self.hdl, np.ascontiguousarray(out, dtype=np.float32), out.nbytes)
+		if(status):
+				print('ERROR: annCopyFromInferenceOutput Failed ')
 		return out
 
 	def classify(self, img):
@@ -126,7 +131,6 @@ def processClassificationOutput(inputImage, modelName, modelOutput):
 		conf = topProb[i]
 		txt = 'Top'+str(topK)+':'+txt+' '+str(int(round((conf*100), 0)))+'%' 
 		size = cv2.getTextSize(txt, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
-		t_width = size[0][0]
 		t_height = size[0][1]
 		textColor = (colors[topK - 1])
 		cv2.putText(resultImage,txt,(45,t_height+(topK*30+40)),cv2.FONT_HERSHEY_SIMPLEX,0.5,textColor,1)
