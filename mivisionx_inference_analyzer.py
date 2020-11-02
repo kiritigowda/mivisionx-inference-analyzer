@@ -227,6 +227,7 @@ if __name__ == '__main__':
         replaceModel = args.replace
         verbose = args.verbose
         resize_inter = args.resize_option
+
     # set verbose print
     if(verbose != 'no'):
         verbosePrint = True
@@ -265,26 +266,26 @@ if __name__ == '__main__':
     w_o = int(str_w_o)
 
 	# cv resize interpolation
-	interpolation_method = cv2.INTER_LINEAR
-	if(resize_inter == 1):
-		# nearest neighbor interpolation
-		interpolation_method = cv2.INTER_NEAREST
-	elif(resize_inter == 2):
-		# bilinear interpolation
-		interpolation_method = cv2.INTER_LINEAR
-	elif(resize_inter == 3):
-		# bicubic interpolation
-		interpolation_method = cv2.INTER_CUBIC
-	elif(resize_inter == 4):
-		# resampling using pixel area relation. 
-		# It may be a preferred method for image decimation, as it gives moire'-free results. 
-		# But when the image is zoomed, it is similar to the INTER_NEAREST method.
-		interpolation_method = cv2.INTER_AREA
-	elif(resize_inter == 5):
-		# Lanczos interpolation over 8x8 neighborhood
-		interpolation_method = cv2.INTER_LANCZOS4 
-	else:
-		print("\nResize interpolation only supports 5 methods - default:INTER_LINEAR\n")
+    interpolation_methond = cv2.INTER_LINEAR
+    if(resize_inter == 1):
+        # nearest neighbor interpolation
+        interpolation_method = cv2.INTER_NEAREST
+    elif(resize_inter == 2):
+        # bilinear interpolation
+        interpolation_method = cv2.INTER_LINEAR
+    elif(resize_inter == 3):
+        # bicubic interpolation
+        interpolation_method = cv2.INTER_CUBIC
+    elif(resize_inter == 4):
+        # resampling using pixel area relation.
+        # It may be a preferred method for image decimation, as it gives moire'-free results.
+        # But when the image is zoomed, it is similar to the INTER_NEAREST method.
+        interpolation_method = cv2.INTER_AREA
+    elif(resize_inter == 5):
+        # Lanczos interpolation over 8x8 neighborhood
+        interpolation_method = cv2.INTER_LANCZOS4
+    else:
+        print("\nResize interpolation only supports 5 methods - default:INTER_LINEAR\n")
 
     # input pre-processing values
     Ax = [0, 0, 0]
@@ -396,7 +397,7 @@ if __name__ == '__main__':
     print("\nSUCCESS: Converting Pre-Trained model to MIVisionX Runtime successful\n")
 
     # else:
-    #print("ERROR: MIVisionX Inference Analyzer Failed")
+    # print("ERROR: MIVisionX Inference Analyzer Failed")
     # quit()
 
     # opencv display window
@@ -461,16 +462,17 @@ if __name__ == '__main__':
 
             # resize image
             start = time.time()
-			#calculate the 50 percent of original dimensions
-			original_width = src.shape[1]
-			original_height = src.shape[0]		
-            resizedFrame = cv2.resize(frame, (w_i, h_i), interpolation = interpolation_method)
-			end = time.time()
-			if(verbosePrint):
+			# calculate the 50 percent of original dimensions
+            original_width = src.shape[1]
+            original_height = src.shape[0]
+            resizedFrame = cv2.resize(
+                frame, (w_i, h_i), interpolation=interpolation_method)
+            end = time.time()
+            if(verbosePrint):
                 print '%30s' % 'Input Image Resized in ', str((end - start)*1000), 'ms'
 
 			# pre-process input
-			start = time.time()
+            start = time.time()
             RGBframe = cv2.cvtColor(resizedFrame, cv2.COLOR_BGR2RGB)
             if(inputAdd != '' or inputMultiply != ''):
                 pFrame = np.zeros(RGBframe.shape).astype('float32')
