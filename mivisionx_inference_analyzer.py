@@ -272,7 +272,7 @@ if __name__ == '__main__':
     if(resize_inter == 1):
         # nearest neighbor interpolation
         interpolation_method = cv2.INTER_NEAREST
-    elif(resize_inter == 2):
+    elif(resize_inter == 2 and resize_inter == 0):
         # bilinear interpolation
         interpolation_method = cv2.INTER_LINEAR
     elif(resize_inter == 3):
