@@ -456,6 +456,7 @@ if __name__ == '__main__':
             # read image
             start = time.time()
             frame = cv2.imread(imageFile)
+            assert not isinstance(frame,type(None)), 'image not found'
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Read Image in ', str((end - start)*1000), 'ms'
