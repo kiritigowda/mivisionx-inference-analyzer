@@ -463,12 +463,13 @@ if __name__ == '__main__':
             # resize image
             start = time.time()
 			# calculate the 50 percent of original dimensions
-            original_width = src.shape[1]
-            original_height = src.shape[0]
+            original_width = frame.shape[1]
+            original_height = frame.shape[0]
             resizedFrame = cv2.resize(
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
             if(verbosePrint):
+                print 'Original WxH:'+str(original_width)+'x'+str(original_height)+' Resized WxH:'+str(w_i)+'x'+str(h_i)
                 print '%30s' % 'Input Image Resized in ', str((end - start)*1000), 'ms'
 
 			# pre-process input
