@@ -445,6 +445,45 @@
         </item>
        </layout>
       </item>
+      <item row="6" column="2">
+       <widget class="QComboBox" name="resize_comboBox">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>default:INTER_LINEAR</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>INTER_NEAREST</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>INTER_LINEAR</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>INTER_AREA</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>INTER_CUBIC</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>INTER_LANCZOS4</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item row="1" column="2" colspan="3">
        <widget class="QLineEdit" name="file_lineEdit">
         <property name="sizePolicy">
@@ -760,6 +799,7 @@
   <tabstop>replace_checkBox</tabstop>
   <tabstop>fp16_checkBox</tabstop>
   <tabstop>verbose_checkBox</tabstop>
+  <tabstop>resize_comboBox</tabstop>
   <tabstop>output_lineEdit</tabstop>
   <tabstop>output_pushButton</tabstop>
   <tabstop>label_lineEdit</tabstop>
