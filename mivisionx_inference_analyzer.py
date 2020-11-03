@@ -10,6 +10,7 @@ import time
 import ctypes
 import pandas
 from collections import Counter
+from PIL import Image
 
 __author__ = "Kiriti Nagesh Gowda"
 __copyright__ = "Copyright 2019, AMD MIVisionX"
@@ -461,7 +462,13 @@ if __name__ == '__main__':
         else:
             # read image
             start = time.time()
-            frame = cv2.imread(imageFile,0)
+            # tmp PIL fix
+            pil_image = Image.open(imageFile).convert('RGB')
+            opencv_image = numpy.array(pil_image)
+            opencv_image = opencv_image[:, :, ::-1].copy()
+            # handle back to OpenCV
+            #frame = cv2.imread(imageFile,0)
+            frame = opencv_image
             assert not isinstance(frame,type(None)), 'ERROR: Image Not found:'+imageFile
             end = time.time()
             if(verbosePrint):
