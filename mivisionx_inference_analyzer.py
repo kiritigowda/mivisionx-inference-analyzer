@@ -257,6 +257,7 @@ if __name__ == '__main__':
     pythonLib = modelBuildDir+'/libannpython.so'
     weightsFile = openvxDir+'/weights.bin'
     finalImageResultsFile = modelDir+'/imageResultsFile.csv'
+    imageSizeCountFile = modelDir+'/originalImageSizeCounter.csv'
 
     # get input & output dims
     str_c_i, str_h_i, str_w_i = modelInputDims.split(',')
@@ -633,6 +634,10 @@ if __name__ == '__main__':
 
     # create image size histogram
     originalImageSizeCounter = Counter(originalImageSizes)
+    with open(imageSizeCountFile, 'w+') as f:
+        f.write('Original Image Size (WxH),Num Original Images\n')
+        for originalSize, numImages in sorted(originalImageSizeCounter.items()):
+            f.write(str(originalSize)+','+str(numImages)+'\n')
     df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
     df.plot(kind='bar')
 
