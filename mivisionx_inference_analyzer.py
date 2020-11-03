@@ -461,8 +461,8 @@ if __name__ == '__main__':
         else:
             # read image
             start = time.time()
-            frame = cv2.imread(imageFile)
-            assert not isinstance(frame,type(None)), 'image not found'
+            frame = cv2.imread(imageFile,0)
+            assert not isinstance(frame,type(None)), 'ERROR: Image Not found:'+imageFile
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Read Image in ', str((end - start)*1000), 'ms'
