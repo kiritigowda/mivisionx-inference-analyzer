@@ -8,6 +8,8 @@ import ctypes
 import sys
 import os
 import argparse
+import pandas
+from collections import Counter
 
 __author__ = "Kiriti Nagesh Gowda"
 __copyright__ = "Copyright 2019, AMD MIVisionX"
@@ -392,13 +394,16 @@ if __name__ == '__main__':
             else:
                 print("ERROR: Converting NNIR to OpenVX Failed")
                 quit()
+    # build model
     os.system('(cd '+modelBuildDir +
               '; cmake ../openvx-files; make; ./anntest ../openvx-files/weights.bin )')
-    print("\nSUCCESS: Converting Pre-Trained model to MIVisionX Runtime successful\n")
-
-    # else:
-    # print("ERROR: MIVisionX Inference Analyzer Failed")
-    # quit()
+    # verify
+    annTestExe = os.path.expanduser(modelBuildDir+'/anntest')
+    if (not os.path.isfile(annTestExe)):
+        print("\nERROR: Failed to Create Neural Net Executable, check MIVisionX Installation")
+        quit()
+    else:
+        print("\nSUCCESS: Converting Pre-Trained model to MIVisionX Runtime successful\n")
 
     # opencv display window
     windowInput = "MIVisionX Inference Analyzer - Input Image"
@@ -444,6 +449,7 @@ if __name__ == '__main__':
     correctTop1 = 0
     wrong = 0
     noGroundTruth = 0
+    originalImageSizes = ["" for x in range(totalImages)]
     for x in range(totalImages):
         imageFileName, grountTruth = imageValidation[x].decode(
             "utf-8").split(' ')
@@ -463,9 +469,9 @@ if __name__ == '__main__':
 
             # resize image
             start = time.time()
-			# calculate the 50 percent of original dimensions
             original_width = frame.shape[1]
             original_height = frame.shape[0]
+            originalImageSizes[x] = str(original_width)+'x'+str(original_height)
             resizedFrame = cv2.resize(
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
@@ -617,6 +623,12 @@ if __name__ == '__main__':
     else:
         os.system('python '+ADATPath+'/generate-visualization.py --inference_results '+finalImageResultsFile +
                   ' --image_dir '+inputImageDir+' --label '+labelText+' --hierarchy '+hierarchyText+' --model_name '+modelName+' --output_dir '+adatOutputDir+' --output_name '+modelName+'-ADAT')
+
+    # create image size histogram
+    originalImageSizeCounter = Counter(originalImageSizes)
+    df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
+    df.plot(kind='bar')
+
     print("\nSUCCESS: Image Analysis Toolkit Created\n")
     print("Press ESC to exit or close progess window\n")
 
