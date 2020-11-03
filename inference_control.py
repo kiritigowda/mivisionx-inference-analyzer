@@ -195,7 +195,7 @@ class inference_control(QtGui.QMainWindow):
 
     def runConfig(self):
         self.model_format = self.format_comboBox.currentText()
-        self.resize_inter = self.resize_comboBox.currentIndex()
+        self.resize_inter = int(self.resize_comboBox.currentIndex())
         self.model_name = self.name_lineEdit.text()
         self.model = self.file_lineEdit.text()
         self.input_dims = '%s' % (self.idims_lineEdit.text())
