@@ -1,13 +1,13 @@
 from inference_control import *
 from numpy.ctypeslib import ndpointer
+import argparse
+import os
+import sys
+import cv2
 import numpy as np
 import numpy
 import time
-import cv2
 import ctypes
-import sys
-import os
-import argparse
 import pandas
 from collections import Counter
 
