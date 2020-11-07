@@ -79,6 +79,7 @@ usage: python mivisionx_inference_analyzer.py 	[-h/--help]
                                        		[--multiply MULTIPLY]
 				       		[--fp16 FP16]
 						[--resize_option RESIZE_OPTION]
+						[--display_option DISPLAY_OPTION]
                                        		[--replace REPLACE] 
                                        		[--verbose VERBOSE]
 
@@ -101,6 +102,7 @@ usage: python mivisionx_inference_analyzer.py 	[-h/--help]
   --multiply            input preprocessing factor      [optional - default:[1,1,1]]
   --fp16                quantize model to FP16 		     [optional - default:no]
   --resize_option       image resize interpolation [optional - default:0 range[0-5]]
+  --display_option      application display option [optional - default:1 range[0-2]]
   --replace             replace/overwrite model              [optional - default:no]
   --verbose             verbose                              [optional - default:no]
 
@@ -116,6 +118,12 @@ usage: python mivisionx_inference_analyzer.py 	[-h/--help]
 			  it is similar to the INTER_NEAREST method.
 4: INTER_CUBIC 		– a bicubic interpolation over 4×4 pixel neighborhood
 5: INTER_LANCZOS4 	– a Lanczos interpolation over 8×8 pixel neighborhood
+```
+#### Display Option
+```
+0: OFF 	- Application Display Turn Off
+1: MIN 	– Display Progress Window
+2: ALL 	– Display Input Image, Image Results, & Progress Window
 ```
 
 ### Graphical User Interface (GUI)
