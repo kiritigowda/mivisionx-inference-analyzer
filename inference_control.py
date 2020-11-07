@@ -20,7 +20,7 @@ class inference_control(QtGui.QMainWindow):
         self.replace = 'no'
         self.verbose = 'no'
         self.resize_inter = 0
-        self.display_option = 2
+        self.display_option = 1
         self.runningState = False
         self.initUI()
 
@@ -57,6 +57,7 @@ class inference_control(QtGui.QMainWindow):
         self.hier_lineEdit.setPlaceholderText("[optional]")
         self.close_pushButton.setStyleSheet("color: white; background-color: darkRed")
         self.readSetupFile()
+        self.display_comboBox.setCurrentIndex(1)
         self.show()
 
     def browseFile(self):
