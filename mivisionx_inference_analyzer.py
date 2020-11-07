@@ -492,7 +492,7 @@ if __name__ == '__main__':
             start = time.time()
             original_width = frame.shape[1]
             original_height = frame.shape[0]
-            originalImageSizes[x] = str(original_width)+'x'+str(original_height)
+            originalImageSizes[x] = format(original_width, '05d')+'x'+format(original_height, '05d')
             resizedFrame = cv2.resize(
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
