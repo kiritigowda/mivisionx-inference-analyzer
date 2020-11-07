@@ -117,7 +117,7 @@ class inference_control(QtGui.QMainWindow):
             self.hier_pushButton.setEnabled(True)
             self.format_comboBox.setCurrentIndex(0)
             self.resize_comboBox.setCurrentIndex(0)
-            self.display_comboBox.setCurrentIndex(2)
+            self.display_comboBox.setCurrentIndex(1)
             self.name_lineEdit.clear()
             self.file_lineEdit.clear()
             self.idims_lineEdit.clear()
@@ -149,7 +149,7 @@ class inference_control(QtGui.QMainWindow):
                             format = 2
                         self.format_comboBox.setCurrentIndex(format)
                         self.resize_comboBox.setCurrentIndex(0)
-                        self.display_comboBox.setCurrentIndex(2)
+                        self.display_comboBox.setCurrentIndex(1)
                         self.name_lineEdit.setText(tokens[1])
                         self.file_lineEdit.setText(tokens[2])
                         self.idims_lineEdit.setText(tokens[3])

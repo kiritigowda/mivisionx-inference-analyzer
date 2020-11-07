@@ -422,7 +422,7 @@ if __name__ == '__main__':
         windowResult = "MIVisionX Inference Analyzer - Results"
         cv2.namedWindow(windowInput, cv2.WINDOW_GUI_EXPANDED)
         cv2.resizeWindow(windowInput, 800, 800)
-    elif(display_option == 1):
+    elif(display_option >= 1):
         windowProgress = "MIVisionX Inference Analyzer - Progress"
     else:
         print("INFO: Display Option set to 0 - Display OFF\n")
@@ -619,7 +619,7 @@ if __name__ == '__main__':
             cv2.putText(progressImage, pTxt4, (125, 370),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
-            if(display_option == 1):
+            if(display_option >= 1):
                 cv2.imshow(windowProgress, progressImage)
             elif(display_option == 0 and (x%25 == 0)):
                 print '%30s' % 'INFO:', pTxt0
@@ -682,7 +682,7 @@ if __name__ == '__main__':
             if(display_option >= 1):
                 cv2.destroyAllWindows()
             break
-        if(display_option == 1):
+        if(display_option >= 1):
             if cv2.getWindowProperty(windowProgress, cv2.WND_PROP_VISIBLE) < 1:
                 break
     
