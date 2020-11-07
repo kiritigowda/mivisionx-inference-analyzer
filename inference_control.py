@@ -20,6 +20,7 @@ class inference_control(QtGui.QMainWindow):
         self.replace = 'no'
         self.verbose = 'no'
         self.resize_inter = 0
+        self.display_option = 2
         self.runningState = False
         self.initUI()
 
@@ -108,6 +109,7 @@ class inference_control(QtGui.QMainWindow):
             self.file_pushButton.setEnabled(True)
             self.format_comboBox.setEnabled(True)
             self.resize_comboBox.setEnabled(True)
+            self.display_comboBox.setEnabled(True)
             self.output_pushButton.setEnabled(True)
             self.label_pushButton.setEnabled(True)
             self.image_pushButton.setEnabled(True)
@@ -115,6 +117,7 @@ class inference_control(QtGui.QMainWindow):
             self.hier_pushButton.setEnabled(True)
             self.format_comboBox.setCurrentIndex(0)
             self.resize_comboBox.setCurrentIndex(0)
+            self.display_comboBox.setCurrentIndex(2)
             self.name_lineEdit.clear()
             self.file_lineEdit.clear()
             self.idims_lineEdit.clear()
@@ -146,6 +149,7 @@ class inference_control(QtGui.QMainWindow):
                             format = 2
                         self.format_comboBox.setCurrentIndex(format)
                         self.resize_comboBox.setCurrentIndex(0)
+                        self.display_comboBox.setCurrentIndex(2)
                         self.name_lineEdit.setText(tokens[1])
                         self.file_lineEdit.setText(tokens[2])
                         self.idims_lineEdit.setText(tokens[3])
@@ -181,6 +185,7 @@ class inference_control(QtGui.QMainWindow):
                         self.file_pushButton.setEnabled(False)
                         self.format_comboBox.setEnabled(False)
                         self.resize_comboBox.setEnabled(True)
+                        self.display_comboBox.setEnabled(True)
 
     def checkInput(self):
         if not self.file_lineEdit.text().isEmpty() and not self.name_lineEdit.text().isEmpty() \
@@ -196,6 +201,7 @@ class inference_control(QtGui.QMainWindow):
     def runConfig(self):
         self.model_format = self.format_comboBox.currentText()
         self.resize_inter = int(self.resize_comboBox.currentIndex())
+        self.display_option = int(self.display_comboBox.currentIndex())
         self.model_name = self.name_lineEdit.text()
         self.model = self.file_lineEdit.text()
         self.input_dims = '%s' % (self.idims_lineEdit.text())

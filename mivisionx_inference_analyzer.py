@@ -177,6 +177,7 @@ if __name__ == '__main__':
         replaceModel = (str)(panel.replace)
         verbose = (str)(panel.verbose)
         resize_inter = (int)(panel.resize_inter)
+        display_option = (int)(panel.display_option)
     else:
         parser = argparse.ArgumentParser()
         parser.add_argument('--model_format',		type=str, required=True,
@@ -211,6 +212,8 @@ if __name__ == '__main__':
                             help='replace/overwrite model    [optional - default:no]')
         parser.add_argument('--verbose',			type=str, default='no',
                             help='verbose                    [optional - default:no]')
+        parser.add_argument('--display_option',		type=int, default=1,
+                            help='image resize interpolation [optional - default:1 range[0 - 2]]')
         args = parser.parse_args()
 
         # get arguments
@@ -230,6 +233,7 @@ if __name__ == '__main__':
         replaceModel = args.replace
         verbose = args.verbose
         resize_inter = args.resize_option
+        display_option = args.display_option
 
     # set verbose print
     if(verbose != 'no'):
@@ -239,9 +243,14 @@ if __name__ == '__main__':
     if(fp16 != 'no'):
         FP16inference = True
 
+    # Set Display Option
+    if display_option not in (0, 1, 2):
+        print("WARNING: Display [options: 0:OFF, 1:MIN, or 2:ALL]")
+        display_option = 2
+
     # set paths
     modelCompilerPath = '/opt/rocm/mivisionx/model_compiler/python'
-    ADATPath = '/opt/rocm/mivisionx/toolkit/analysis_and_visualization/classification'
+    ADATPath = '/opt/rocm/mivisionx/toolkit/amd_data_analysis_toolkit/classification'
     setupDir = '~/.mivisionx-inference-analyzer'
     analyzerDir = os.path.expanduser(setupDir)
     modelDir = analyzerDir+'/'+modelName+'_dir'
@@ -408,11 +417,15 @@ if __name__ == '__main__':
         print("\nSUCCESS: Converting Pre-Trained model to MIVisionX Runtime successful\n")
 
     # opencv display window
-    windowInput = "MIVisionX Inference Analyzer - Input Image"
-    windowResult = "MIVisionX Inference Analyzer - Results"
-    windowProgress = "MIVisionX Inference Analyzer - Progress"
-    cv2.namedWindow(windowInput, cv2.WINDOW_GUI_EXPANDED)
-    cv2.resizeWindow(windowInput, 800, 800)
+    if(display_option == 2):
+        windowInput = "MIVisionX Inference Analyzer - Input Image"
+        windowResult = "MIVisionX Inference Analyzer - Results"
+        cv2.namedWindow(windowInput, cv2.WINDOW_GUI_EXPANDED)
+        cv2.resizeWindow(windowInput, 800, 800)
+    elif(display_option == 1):
+        windowProgress = "MIVisionX Inference Analyzer - Progress"
+    else:
+        print("INFO: Display Option set to 0 - Display OFF\n")
 
     # create inference classifier
     classifier = annieObjectWrapper(pythonLib, weightsFile)
@@ -484,7 +497,7 @@ if __name__ == '__main__':
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
             if(verbosePrint):
-                print 'Original WxH:'+str(original_width)+'x'+str(original_height)+' Resized WxH:'+str(w_i)+'x'+str(h_i)
+                print '%30s' % 'Original WxH:'+str(original_width)+'x'+str(original_height)+' Resized WxH:'+str(w_i)+'x'+str(h_i)
                 print '%30s' % 'Input Image Resized in ', str((end - start)*1000), 'ms'
 
 			# pre-process input
@@ -510,8 +523,9 @@ if __name__ == '__main__':
             resultImage, topIndex, topProb = processClassificationOutput(
                 resizedFrame, modelName, output)
             start = time.time()
-            cv2.imshow(windowInput, frame)
-            cv2.imshow(windowResult, resultImage)
+            if(display_option == 2):
+                cv2.imshow(windowInput, frame)
+                cv2.imshow(windowResult, resultImage)
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Processed display in ', str((end - start)*1000), 'ms\n'
@@ -550,8 +564,8 @@ if __name__ == '__main__':
             cv2.rectangle(progressImage, (50, 150),
                           (progressWidth, 180), (255, 204, 153), -1)
             percentage = int(((x+1)/float(totalImages))*100)
-            pTxt = 'progress: '+str(percentage)+'%'
-            cv2.putText(progressImage, pTxt, (175, 170),
+            pTxt0 = 'progress: '+str(percentage)+'%'
+            cv2.putText(progressImage, pTxt0, (175, 170),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
             if(groundTruthIndex == topIndex[4]):
@@ -571,8 +585,8 @@ if __name__ == '__main__':
             cv2.rectangle(progressImage, (50, 200),
                           (progressWidth, 230), (0, 153, 0), -1)
             percentage = int((correctTop1/float(totalImages))*100)
-            pTxt = 'Top1: '+str(percentage)+'%'
-            cv2.putText(progressImage, pTxt, (195, 220),
+            pTxt1 = 'Top1: '+str(percentage)+'%'
+            cv2.putText(progressImage, pTxt1, (195, 220),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
             # top 5 progress
             cv2.rectangle(progressImage, (50, 250),
@@ -581,8 +595,8 @@ if __name__ == '__main__':
             cv2.rectangle(progressImage, (50, 250),
                           (progressWidth, 280), (0, 255, 0), -1)
             percentage = int((correctTop5/float(totalImages))*100)
-            pTxt = 'Top5: '+str(percentage)+'%'
-            cv2.putText(progressImage, pTxt, (195, 270),
+            pTxt2 = 'Top5: '+str(percentage)+'%'
+            cv2.putText(progressImage, pTxt2, (195, 270),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
             # wrong progress
             cv2.rectangle(progressImage, (50, 300),
@@ -591,8 +605,8 @@ if __name__ == '__main__':
             cv2.rectangle(progressImage, (50, 300),
                           (progressWidth, 330), (0, 0, 255), -1)
             percentage = int((wrong/float(totalImages))*100)
-            pTxt = 'Mismatch: '+str(percentage)+'%'
-            cv2.putText(progressImage, pTxt, (175, 320),
+            pTxt3 = 'Mismatch: '+str(percentage)+'%'
+            cv2.putText(progressImage, pTxt3, (175, 320),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
             # no ground truth progress
             cv2.rectangle(progressImage, (50, 350),
@@ -601,11 +615,19 @@ if __name__ == '__main__':
             cv2.rectangle(progressImage, (50, 350),
                           (progressWidth, 380), (0, 255, 255), -1)
             percentage = int((noGroundTruth/float(totalImages))*100)
-            pTxt = 'Ground Truth unavailable: '+str(percentage)+'%'
-            cv2.putText(progressImage, pTxt, (125, 370),
+            pTxt4 = 'Ground Truth unavailable: '+str(percentage)+'%'
+            cv2.putText(progressImage, pTxt4, (125, 370),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
 
-            cv2.imshow(windowProgress, progressImage)
+            if(display_option == 1):
+                cv2.imshow(windowProgress, progressImage)
+            elif(display_option == 0 and (x%25 == 0)):
+                print '%30s' % 'INFO:', pTxt0
+                print '%30s' % 'INFO:', pTxt1
+                print '%30s' % 'INFO:', pTxt2
+                print '%30s' % 'INFO:', pTxt3
+                print '%30s' % 'INFO:', pTxt1
+
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Progress image created in ', str((end - start)*1000), 'ms'
@@ -617,8 +639,9 @@ if __name__ == '__main__':
 
     # Inference Analyzer Successful
     print("\nSUCCESS: Images Inferenced with the Model\n")
-    cv2.destroyWindow(windowInput)
-    cv2.destroyWindow(windowResult)
+    if(display_option == 2):
+        cv2.destroyWindow(windowInput)
+        cv2.destroyWindow(windowResult)
 
     # Create ADAT folder and file
     print("\nADAT tool called to create the analysis toolkit\n")
@@ -635,24 +658,34 @@ if __name__ == '__main__':
     # create image size histogram
     originalImageSizeCounter = Counter(originalImageSizes)
     with open(imageSizeCountFile, 'w+') as f:
-        f.write('Original Image Size (WxH),Num Original Images\n')
+        f.write('Original Image Size (WxH), Num Original Images\n')
         for originalSize, numImages in sorted(originalImageSizeCounter.items()):
             f.write(str(originalSize)+','+str(numImages)+'\n')
-    df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
-    df.plot(kind='bar')
-
-    print("\nSUCCESS: Image Analysis Toolkit Created\n")
-    print("Press ESC to exit or close progess window\n")
+    if(display_option >= 1):
+        df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
+        df.plot(kind='bar')
+    
+    # Verify ADAT Generation
+    outputHTMLFile = os.path.expanduser(
+        adatOutputDir+'/'+modelName+'-ADAT-toolKit/index.html')
+    if(not os.path.isfile(outputHTMLFile)):
+        print("\nERROR: Failed to Create Image Classification - ADAT, check MIVisionX Installation")
+        quit()
+    else:
+        print("\nSUCCESS: Image Classification - ADAT Created\n")
 
     # Wait to quit
+    print("Press ESC to exit or close progess window\n")
     while True:
         key = cv2.waitKey(2)
         if key == 27:
-            cv2.destroyAllWindows()
+            if(display_option >= 1):
+                cv2.destroyAllWindows()
             break
-        if cv2.getWindowProperty(windowProgress, cv2.WND_PROP_VISIBLE) < 1:
-            break
-
-    outputHTMLFile = os.path.expanduser(
-        adatOutputDir+'/'+modelName+'-ADAT-toolKit/index.html')
-    os.system('firefox '+outputHTMLFile)
+        if(display_option == 1):
+            if cv2.getWindowProperty(windowProgress, cv2.WND_PROP_VISIBLE) < 1:
+                break
+    
+    # Display ADAT
+    if(display_option >= 1):
+        os.system('firefox '+outputHTMLFile)

@@ -499,6 +499,30 @@
         </item>
        </widget>
       </item>
+      <item row="6" column="3">
+       <widget class="QComboBox" name="display_comboBox">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>0: OFF</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1: Min</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>2: ALL [default]</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item row="1" column="2" colspan="3">
        <widget class="QLineEdit" name="file_lineEdit">
         <property name="sizePolicy">
@@ -815,6 +839,7 @@
   <tabstop>fp16_checkBox</tabstop>
   <tabstop>verbose_checkBox</tabstop>
   <tabstop>resize_comboBox</tabstop>
+  <tabstop>display_comboBox</tabstop>
   <tabstop>output_lineEdit</tabstop>
   <tabstop>output_pushButton</tabstop>
   <tabstop>label_lineEdit</tabstop>
