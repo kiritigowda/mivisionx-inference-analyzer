@@ -622,11 +622,12 @@ if __name__ == '__main__':
             if(display_option >= 1):
                 cv2.imshow(windowProgress, progressImage)
             elif(display_option == 0 and (x%25 == 0)):
-                print '%30s' % 'INFO:', pTxt0
-                print '%30s' % 'INFO:', pTxt1
-                print '%30s' % 'INFO:', pTxt2
-                print '%30s' % 'INFO:', pTxt3
-                print '%30s' % 'INFO:', pTxt1
+                print '%20s' % 'INFO:', pTxt0
+                print '%20s' % 'INFO:', pTxt1
+                print '%20s' % 'INFO:', pTxt2
+                print '%20s' % 'INFO:', pTxt3
+                print '%20s' % 'INFO:', pTxt4
+                print("\n\n")
 
             end = time.time()
             if(verbosePrint):
