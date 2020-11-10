@@ -659,9 +659,10 @@ if __name__ == '__main__':
     # create image size histogram
     originalImageSizeCounter = Counter(originalImageSizes)
     with open(imageSizeCountFile, 'w+') as f:
-        f.write('Original Image Size (WxH), Num Original Images\n')
+        f.write('Original Image Width, Original Image Height, Num Original Images\n')
         for originalSize, numImages in sorted(originalImageSizeCounter.items()):
-            f.write(str(originalSize)+','+str(numImages)+'\n')
+            Owidth,Oheight = originalSize.split("x")
+            f.write(Owidth+', '+Oheight+', '+str(numImages)+'\n')
     if(display_option >= 1):
         df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
         df.plot(kind='bar')
