@@ -279,7 +279,7 @@ if __name__ == '__main__':
     h_o = int(str_h_o)
     w_o = int(str_w_o)
 
-	# cv resize interpolation
+    # cv resize interpolation
     interpolation_methond = cv2.INTER_LINEAR
     if(resize_inter == 1):
         # nearest neighbor interpolation
@@ -412,7 +412,8 @@ if __name__ == '__main__':
     # verify
     annTestExe = os.path.expanduser(modelBuildDir+'/anntest')
     if (not os.path.isfile(annTestExe)):
-        print("\nERROR: Failed to Create Neural Net Executable, check MIVisionX Installation")
+        print(
+            "\nERROR: Failed to Create Neural Net Executable, check MIVisionX Installation")
         quit()
     else:
         print("\nSUCCESS: Converting Pre-Trained model to MIVisionX Runtime successful\n")
@@ -484,7 +485,8 @@ if __name__ == '__main__':
             # handle back to OpenCV
             #frame = cv2.imread(imageFile,0)
             frame = opencv_image
-            assert not isinstance(frame,type(None)), 'ERROR: Image Not found:'+imageFile
+            assert not isinstance(frame, type(
+                None)), 'ERROR: Image Not found:'+imageFile
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Read Image in ', str((end - start)*1000), 'ms'
@@ -493,7 +495,8 @@ if __name__ == '__main__':
             start = time.time()
             original_width = frame.shape[1]
             original_height = frame.shape[0]
-            originalImageSizes[x] = format(original_width, '05d')+'x'+format(original_height, '05d')
+            originalImageSizes[x] = format(
+                original_width, '05d')+'x'+format(original_height, '05d')
             resizedFrame = cv2.resize(
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
@@ -501,7 +504,7 @@ if __name__ == '__main__':
                 print '%30s' % 'Original WxH:'+str(original_width)+'x'+str(original_height)+' Resized WxH:'+str(w_i)+'x'+str(h_i)
                 print '%30s' % 'Input Image Resized in ', str((end - start)*1000), 'ms'
 
-			# pre-process input
+                # pre-process input
             start = time.time()
             RGBframe = cv2.cvtColor(resizedFrame, cv2.COLOR_BGR2RGB)
             if(inputAdd != '' or inputMultiply != ''):
@@ -622,7 +625,7 @@ if __name__ == '__main__':
 
             if(display_option >= 1):
                 cv2.imshow(windowProgress, progressImage)
-            elif(display_option == 0 and (x%25 == 0)):
+            elif(display_option == 0 and (x % 25 == 0)):
                 print '%20s' % 'INFO:', pTxt0
                 print '%20s' % 'INFO:', pTxt1
                 print '%20s' % 'INFO:', pTxt2
@@ -662,12 +665,11 @@ if __name__ == '__main__':
     with open(imageSizeCountFile, 'w+') as f:
         f.write('Original Image Width, Original Image Height, Num Original Images\n')
         for originalSize, numImages in sorted(originalImageSizeCounter.items()):
-            Owidth,Oheight = originalSize.split("x")
+            Owidth, Oheight = originalSize.split("x")
             f.write(Owidth+', '+Oheight+', '+str(numImages)+'\n')
-    if(display_option >= 1):
-        df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
-        fig = df.plot(kind='bar').get_figure()
-        fig.savefig(imageSizeCountGraph)
+    df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
+    fig = df.plot(kind='bar').get_figure()
+    fig.savefig(imageSizeCountGraph)
 
     # Verify ADAT Generation
     outputHTMLFile = os.path.expanduser(
@@ -689,7 +691,7 @@ if __name__ == '__main__':
         if(display_option >= 1):
             if cv2.getWindowProperty(windowProgress, cv2.WND_PROP_VISIBLE) < 1:
                 break
-    
+
     # Display ADAT
     if(display_option >= 1):
         os.system('firefox '+outputHTMLFile)
