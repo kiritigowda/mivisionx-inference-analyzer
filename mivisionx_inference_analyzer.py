@@ -267,6 +267,7 @@ if __name__ == '__main__':
     weightsFile = openvxDir+'/weights.bin'
     finalImageResultsFile = modelDir+'/imageResultsFile.csv'
     imageSizeCountFile = modelDir+'/originalImageSizeCounter.csv'
+    imageSizeCountGraph = modelDir+'/originalImageSizePlot.png'
 
     # get input & output dims
     str_c_i, str_h_i, str_w_i = modelInputDims.split(',')
@@ -425,7 +426,7 @@ if __name__ == '__main__':
     elif(display_option >= 1):
         windowProgress = "MIVisionX Inference Analyzer - Progress"
     else:
-        print("INFO: Display Option set to 0 - Display OFF\n")
+        print("\nINFO: Display Option set to 0 - Display OFF\n")
 
     # create inference classifier
     classifier = annieObjectWrapper(pythonLib, weightsFile)
@@ -665,8 +666,9 @@ if __name__ == '__main__':
             f.write(Owidth+', '+Oheight+', '+str(numImages)+'\n')
     if(display_option >= 1):
         df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
-        df.plot(kind='bar')
-    
+        fig = df.plot(kind='bar').get_figure()
+        fig.savefig(imageSizeCountGraph)
+
     # Verify ADAT Generation
     outputHTMLFile = os.path.expanduser(
         adatOutputDir+'/'+modelName+'-ADAT-toolKit/index.html')
