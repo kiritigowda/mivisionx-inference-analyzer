@@ -680,15 +680,15 @@ if __name__ == '__main__':
             imagePixels = int (o_w * o_h)
             if(imagePixels < (w_i * h_i)):
                 pixelLessthan += numImages
-            elif( imagePixels >= (w_i * h_i) and imagePixels >= (512 * 512)):
+            elif( imagePixels >= (w_i * h_i) and imagePixels < (512 * 512)):
                 pixel0512 += numImages
-            elif( imagePixels >= (512 * 512) and imagePixels >= (1024 * 1024)):
+            elif( imagePixels >= (512 * 512) and imagePixels < (1024 * 1024)):
                 pixel1024 += numImages
-            elif( imagePixels >= (1024 * 1024) and imagePixels >= (2048 * 2048)):
+            elif( imagePixels >= (1024 * 1024) and imagePixels < (2048 * 2048)):
                 pixel2048 += numImages
-            elif( imagePixels >= (2048 * 2048) and imagePixels >= (4096 * 4096)):
+            elif( imagePixels >= (2048 * 2048) and imagePixels < (4096 * 4096)):
                 pixel4096 += numImages
-            elif( imagePixels >= (4096 * 4096) and imagePixels >= (8192 * 8192)):
+            elif( imagePixels >= (4096 * 4096) and imagePixels < (8192 * 8192)):
                 pixel8192 += numImages
             else:
                 pixelGreater += numImages
