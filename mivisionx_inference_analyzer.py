@@ -679,19 +679,19 @@ if __name__ == '__main__':
             o_h = int(Oheight)
             imagePixels = int (o_w * o_h)
             if(imagePixels < (w_i * h_i)):
-                pixelLessthan += 1
+                pixelLessthan += numImages
             elif( imagePixels >= (w_i * h_i) and imagePixels >= (512 * 512)):
-                pixel0512 += 1
+                pixel0512 += numImages
             elif( imagePixels >= (512 * 512) and imagePixels >= (1024 * 1024)):
-                pixel1024 += 1
+                pixel1024 += numImages
             elif( imagePixels >= (1024 * 1024) and imagePixels >= (2048 * 2048)):
-                pixel2048 += 1
+                pixel2048 += numImages
             elif( imagePixels >= (2048 * 2048) and imagePixels >= (4096 * 4096)):
-                pixel4096 += 1
+                pixel4096 += numImages
             elif( imagePixels >= (4096 * 4096) and imagePixels >= (8192 * 8192)):
-                pixel8192 += 1
+                pixel8192 += numImages
             else:
-                pixelGreater += 1
+                pixelGreater += numImages
     
     with open(imageSizeFile, 'w+') as f:
         f.write('Original Image Size Range, Num Original Images\n')
