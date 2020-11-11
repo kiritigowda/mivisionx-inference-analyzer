@@ -267,6 +267,7 @@ if __name__ == '__main__':
     weightsFile = openvxDir+'/weights.bin'
     finalImageResultsFile = modelDir+'/imageResultsFile.csv'
     imageSizeCountFile = modelDir+'/originalImageSizeCounter.csv'
+    imageSizeFile = modelDir+'/originalImageSizes.csv'
     imageSizeCountGraph = modelDir+'/originalImageSizePlot.png'
 
     # get input & output dims
@@ -660,13 +661,48 @@ if __name__ == '__main__':
         os.system('python '+ADATPath+'/generate-visualization.py --inference_results '+finalImageResultsFile +
                   ' --image_dir '+inputImageDir+' --label '+labelText+' --hierarchy '+hierarchyText+' --model_name '+modelName+' --output_dir '+adatOutputDir+' --output_name '+modelName+'-ADAT')
 
-    # create image size histogram
+    # create original image size calculations
     originalImageSizeCounter = Counter(originalImageSizes)
+    pixelLessthan = 0
+    pixel0512 = 0
+    pixel1024 = 0
+    pixel2048 = 0
+    pixel4096 = 0
+    pixel8192 = 0
+    pixelGreater = 0
     with open(imageSizeCountFile, 'w+') as f:
         f.write('Original Image Width, Original Image Height, Num Original Images\n')
         for originalSize, numImages in sorted(originalImageSizeCounter.items()):
             Owidth, Oheight = originalSize.split("x")
             f.write(Owidth+', '+Oheight+', '+str(numImages)+'\n')
+            o_w = int(Owidth)
+            o_h = int(Oheight)
+            imagePixels = int (o_w * o_h)
+            if(imagePixels < (w_i * h_i)):
+                pixelLessthan += 1
+            elif( imagePixels >= (w_i * h_i) and imagePixels >= (512 * 512)):
+                pixel0512 += 1
+            elif( imagePixels >= (512 * 512) and imagePixels >= (1024 * 1024)):
+                pixel1024 += 1
+            elif( imagePixels >= (1024 * 1024) and imagePixels >= (2048 * 2048)):
+                pixel2048 += 1
+            elif( imagePixels >= (2048 * 2048) and imagePixels >= (4096 * 4096)):
+                pixel4096 += 1
+            elif( imagePixels >= (4096 * 4096) and imagePixels >= (8192 * 8192)):
+                pixel8192 += 1
+            else:
+                pixelGreater += 1
+    
+    with open(imageSizeFile, 'w+') as f:
+        f.write('Original Image Size Range, Num Original Images\n')
+        f.write('00000x00000 - '+format(w_i, '05d')+'x'+format(h_i, '05d')+', '+str(pixelLessthan)+'\n')
+        f.write(format(w_i, '05d')+'x'+format(h_i, '05d')+' - 00512x00512, '+str(pixel0512)+'\n')
+        f.write('00512x00512 - 01024x01024, '+str(pixel1024)+'\n')
+        f.write('01024x01024 - 02048x02048, '+str(pixel2048)+'\n')
+        f.write('02048x02048 - 04096x04096, '+str(pixel4096)+'\n')
+        f.write('04096x04096 - 08192x08192, '+str(pixel8192)+'\n')
+        f.write('>> 08192x08192, '+str(pixelGreater)+'\n')
+
     df = pandas.DataFrame.from_dict(originalImageSizeCounter, orient='index')
     fig = df.plot(kind='bar').get_figure()
     fig.savefig(imageSizeCountGraph)
