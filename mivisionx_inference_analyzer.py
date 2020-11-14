@@ -459,7 +459,7 @@ if __name__ == '__main__':
     # setup results output file
     sys.stdout = open(finalImageResultsFile, 'w')
     print('Image File Name,Ground Truth Label,Output Label 1,Output Label 2,Output Label 3,\
-    		Output Label 4,Output Label 5,Prob 1,Prob 2,Prob 3,Prob 4,Prob 5')
+		Output Label 4,Output Label 5,Prob 1,Prob 2,Prob 3,Prob 4,Prob 5,Original Image Scale')
     sys.stdout = orig_stdout
 
     # process images
@@ -498,6 +498,8 @@ if __name__ == '__main__':
             original_height = frame.shape[0]
             originalImageSizes[x] = format(
                 original_width, '05d')+'x'+format(original_height, '05d')
+            ImageScaleFactor = float(
+                original_width * original_height)/(w_i * h_i)
             resizedFrame = cv2.resize(
                 frame, (w_i, h_i), interpolation=interpolation_method)
             end = time.time()
@@ -505,7 +507,7 @@ if __name__ == '__main__':
                 print '%30s' % 'Original WxH:'+str(original_width)+'x'+str(original_height)+' Resized WxH:'+str(w_i)+'x'+str(h_i)
                 print '%30s' % 'Input Image Resized in ', str((end - start)*1000), 'ms'
 
-                # pre-process input
+            # pre-process input
             start = time.time()
             RGBframe = cv2.cvtColor(resizedFrame, cv2.COLOR_BGR2RGB)
             if(inputAdd != '' or inputMultiply != ''):
@@ -540,7 +542,7 @@ if __name__ == '__main__':
             sys.stdout = open(finalImageResultsFile, 'a')
             print(imageFileName+','+str(groundTruthIndex)+','+str(topIndex[4]) +
                   ','+str(topIndex[3])+','+str(topIndex[2])+','+str(topIndex[1])+','+str(topIndex[0])+','+str(topProb[4]) +
-                  ','+str(topProb[3])+','+str(topProb[2])+','+str(topProb[1])+','+str(topProb[0]))
+                  ','+str(topProb[3])+','+str(topProb[2])+','+str(topProb[1])+','+str(topProb[0])+','+str(ImageScaleFactor))
             sys.stdout = orig_stdout
             end = time.time()
             if(verbosePrint):
@@ -677,26 +679,28 @@ if __name__ == '__main__':
             f.write(Owidth+', '+Oheight+', '+str(numImages)+'\n')
             o_w = int(Owidth)
             o_h = int(Oheight)
-            imagePixels = int (o_w * o_h)
+            imagePixels = int(o_w * o_h)
             if(imagePixels < (w_i * h_i)):
                 pixelLessthan += numImages
-            elif( imagePixels >= (w_i * h_i) and imagePixels < (512 * 512)):
+            elif(imagePixels >= (w_i * h_i) and imagePixels < (512 * 512)):
                 pixel0512 += numImages
-            elif( imagePixels >= (512 * 512) and imagePixels < (1024 * 1024)):
+            elif(imagePixels >= (512 * 512) and imagePixels < (1024 * 1024)):
                 pixel1024 += numImages
-            elif( imagePixels >= (1024 * 1024) and imagePixels < (2048 * 2048)):
+            elif(imagePixels >= (1024 * 1024) and imagePixels < (2048 * 2048)):
                 pixel2048 += numImages
-            elif( imagePixels >= (2048 * 2048) and imagePixels < (4096 * 4096)):
+            elif(imagePixels >= (2048 * 2048) and imagePixels < (4096 * 4096)):
                 pixel4096 += numImages
-            elif( imagePixels >= (4096 * 4096) and imagePixels < (8192 * 8192)):
+            elif(imagePixels >= (4096 * 4096) and imagePixels < (8192 * 8192)):
                 pixel8192 += numImages
             else:
                 pixelGreater += numImages
-    
+
     with open(imageSizeFile, 'w+') as f:
         f.write('Original Image Size Range, Num Original Images\n')
-        f.write('00000x00000 - '+format(w_i, '05d')+'x'+format(h_i, '05d')+', '+str(pixelLessthan)+'\n')
-        f.write(format(w_i, '05d')+'x'+format(h_i, '05d')+' - 00512x00512, '+str(pixel0512)+'\n')
+        f.write('00000x00000 - '+format(w_i, '05d')+'x' +
+                format(h_i, '05d')+', '+str(pixelLessthan)+'\n')
+        f.write(format(w_i, '05d')+'x'+format(h_i, '05d') +
+                ' - 00512x00512, '+str(pixel0512)+'\n')
         f.write('00512x00512 - 01024x01024, '+str(pixel1024)+'\n')
         f.write('01024x01024 - 02048x02048, '+str(pixel2048)+'\n')
         f.write('02048x02048 - 04096x04096, '+str(pixel4096)+'\n')
