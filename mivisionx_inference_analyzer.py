@@ -16,7 +16,7 @@ __author__ = "Kiriti Nagesh Gowda"
 __copyright__ = "Copyright 2019, AMD MIVisionX"
 __credits__ = ["Mike Schmit; Hansel Yang; Lakshmi Kumar;"]
 __license__ = "MIT"
-__version__ = "1.0"
+__version__ = "1.1"
 __maintainer__ = "Kiriti Nagesh Gowda"
 __email__ = "Kiriti.NageshGowda@amd.com"
 __status__ = "Shipping"
@@ -251,6 +251,7 @@ if __name__ == '__main__':
     # set paths
     modelCompilerPath = '/opt/rocm/mivisionx/model_compiler/python'
     ADATPath = '/opt/rocm/mivisionx/toolkit/amd_data_analysis_toolkit/classification'
+
     setupDir = '~/.mivisionx-inference-analyzer'
     analyzerDir = os.path.expanduser(setupDir)
     modelDir = analyzerDir+'/'+modelName+'_dir'
@@ -407,6 +408,7 @@ if __name__ == '__main__':
             else:
                 print("ERROR: Converting NNIR to OpenVX Failed")
                 quit()
+
     # build model
     os.system('(cd '+modelBuildDir +
               '; cmake ../openvx-files; make; ./anntest ../openvx-files/weights.bin )')
@@ -460,6 +462,7 @@ if __name__ == '__main__':
     sys.stdout = open(finalImageResultsFile, 'w')
     print('Image File Name,Ground Truth Label,Output Label 1,Output Label 2,Output Label 3,\
 		Output Label 4,Output Label 5,Prob 1,Prob 2,Prob 3,Prob 4,Prob 5,Original Image Scale')
+
     sys.stdout = orig_stdout
 
     # process images
@@ -533,6 +536,7 @@ if __name__ == '__main__':
             if(display_option == 2):
                 cv2.imshow(windowInput, frame)
                 cv2.imshow(windowResult, resultImage)
+
             end = time.time()
             if(verbosePrint):
                 print '%30s' % 'Processed display in ', str((end - start)*1000), 'ms\n'
