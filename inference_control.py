@@ -1,6 +1,7 @@
 import os
 from PyQt4 import QtGui, uic
 
+
 class inference_control(QtGui.QMainWindow):
     def __init__(self, parent=None):
         super(inference_control, self).__init__(parent)
@@ -53,30 +54,38 @@ class inference_control(QtGui.QMainWindow):
         self.image_lineEdit.setPlaceholderText("Image Folder [required]")
         self.val_lineEdit.setPlaceholderText("[optional]")
         self.hier_lineEdit.setPlaceholderText("[optional]")
-        self.close_pushButton.setStyleSheet("color: white; background-color: darkRed")
+        self.close_pushButton.setStyleSheet(
+            "color: white; background-color: darkRed")
         self.readSetupFile()
         self.show()
 
     def browseFile(self):
         if self.format_comboBox.currentText() == 'nnef':
-            self.file_lineEdit.setText(QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))    
+            self.file_lineEdit.setText(
+                QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))
         else:
-            self.file_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*'))
+            self.file_lineEdit.setText(
+                QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*'))
 
     def browseOutput(self):
-        self.output_lineEdit.setText(QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))
+        self.output_lineEdit.setText(
+            QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))
 
     def browseLabel(self):
-        self.label_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*.txt'))
+        self.label_lineEdit.setText(
+            QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*.txt'))
 
     def browseImage(self):
-        self.image_lineEdit.setText(QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))
+        self.image_lineEdit.setText(
+            QtGui.QFileDialog.getExistingDirectory(self, 'Open Folder', './'))
 
     def browseVal(self):
-        self.val_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*.txt'))
+        self.val_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(
+            self, 'Open File', './', '*.txt'))
 
     def browseHier(self):
-        self.hier_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(self, 'Open File', './', '*.csv'))
+        self.hier_lineEdit.setText(QtGui.QFileDialog.getOpenFileName(
+            self, 'Open File', './', '*.csv'))
 
     def readSetupFile(self):
         setupDir = '~/.mivisionx-inference-analyzer'
@@ -87,7 +96,7 @@ class inference_control(QtGui.QMainWindow):
                 if len(token) > 1:
                     modelName = token[1]
                     self.upload_comboBox.addItem(modelName)
-            
+
     def fromFile(self):
         if self.upload_comboBox.currentIndex() == 0:
             self.name_lineEdit.setEnabled(True)
@@ -153,9 +162,12 @@ class inference_control(QtGui.QMainWindow):
                         self.hier_lineEdit.setText(tokens[9])
                         self.padd_lineEdit.setText(tokens[10])
                         self.pmul_lineEdit.setText(tokens[11])
-                        self.fp16_checkBox.setChecked(True) if tokens[12] == 'yes\n' or tokens[12] == 'yes' else self.fp16_checkBox.setChecked(False)
-                        self.replace_checkBox.setChecked(True) if tokens[13] == 'yes\n' or tokens[13] == 'yes' else self.replace_checkBox.setChecked(False)
-                        self.verbose_checkBox.setChecked(True) if tokens[14] == 'yes\n' or tokens[14] == 'yes' else self.verbose_checkBox.setChecked(False)
+                        self.fp16_checkBox.setChecked(
+                            True) if tokens[12] == 'yes\n' or tokens[12] == 'yes' else self.fp16_checkBox.setChecked(False)
+                        self.replace_checkBox.setChecked(
+                            True) if tokens[13] == 'yes\n' or tokens[13] == 'yes' else self.replace_checkBox.setChecked(False)
+                        self.verbose_checkBox.setChecked(
+                            True) if tokens[14] == 'yes\n' or tokens[14] == 'yes' else self.verbose_checkBox.setChecked(False)
                         self.name_lineEdit.setEnabled(False)
                         self.file_lineEdit.setEnabled(False)
                         self.idims_lineEdit.setEnabled(False)
@@ -179,11 +191,11 @@ class inference_control(QtGui.QMainWindow):
 
     def checkInput(self):
         if not self.file_lineEdit.text().isEmpty() and not self.name_lineEdit.text().isEmpty() \
-            and not self.idims_lineEdit.text().isEmpty() and not self.odims_lineEdit.text().isEmpty() \
-            and not self.output_lineEdit.text().isEmpty() and not self.label_lineEdit.text().isEmpty() \
-            and not self.image_lineEdit.text().isEmpty():
-                self.run_pushButton.setEnabled(True)
-                self.run_pushButton.setStyleSheet("background-color: lightgreen")
+                and not self.idims_lineEdit.text().isEmpty() and not self.odims_lineEdit.text().isEmpty() \
+                and not self.output_lineEdit.text().isEmpty() and not self.label_lineEdit.text().isEmpty() \
+                and not self.image_lineEdit.text().isEmpty():
+            self.run_pushButton.setEnabled(True)
+            self.run_pushButton.setStyleSheet("background-color: lightgreen")
         else:
             self.run_pushButton.setEnabled(False)
             self.run_pushButton.setStyleSheet("background-color: 0")
