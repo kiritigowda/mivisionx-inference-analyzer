@@ -136,12 +136,13 @@ print"\n"
 print"<body style=\"color:white; background-color:black\">"
 print"\n"
 print"<pre>"
-print"Image File Name,Ground Truth Label,Model A Output Label 1,Model B Output Label 1,Model A Prob 1,Model B Prob 2"
+print("%-30s %-30s %-30s %-30s %-30s %-30s" % ("Image File Name", "Ground Truth Label", "Model A Top-1","Model B Top-1","Model A Prob-1","Model B Prob-1"))
+
 
 for x in range(row_count):
     if topK == 1:
         if data_1[x][2] != data_2[x][2]: #or data_1[x][7] != data_2[x][7]
-            print '\t'+str(data_1[x][0])+','+str(data_1[x][1])+','+str(data_1[x][2])+','+str(data_2[x][2])+','+str(data_1[x][7])+','+str(data_2[x][7])
+            print("%-30s %-30s %-30s %-30s %-30s %-30s" % (str(data_1[x][0]),str(data_1[x][1]),str(data_1[x][2]),str(data_2[x][2]),str(data_1[x][7]),str(data_2[x][7])))
 
 print"\n"
 print"</pre>"
