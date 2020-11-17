@@ -445,6 +445,99 @@
         </item>
        </layout>
       </item>
+    <item row="6" column="1">
+       <widget class="QLabel" name="resize_label">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <property name="text">
+         <string>Image Resize Interpolation</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QComboBox" name="resize_comboBox">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>0: INTER_LINEAR [default]</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1: INTER_NEAREST</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>2: INTER_LINEAR</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>3: INTER_AREA</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>4: INTER_CUBIC</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>5: INTER_LANCZOS4</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLabel" name="resize_label">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <property name="text">
+         <string>Display Option</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="4">
+       <widget class="QComboBox" name="display_comboBox">
+        <property name="font">
+         <font>
+          <family>Ubuntu</family>
+         </font>
+        </property>
+        <item>
+         <property name="text">
+          <string>0: OFF</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1: Min [default]</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>2: ALL</string>
+         </property>
+        </item>
+       </widget>
+      </item>
       <item row="1" column="2" colspan="3">
        <widget class="QLineEdit" name="file_lineEdit">
         <property name="sizePolicy">
@@ -760,6 +853,8 @@
   <tabstop>replace_checkBox</tabstop>
   <tabstop>fp16_checkBox</tabstop>
   <tabstop>verbose_checkBox</tabstop>
+  <tabstop>resize_comboBox</tabstop>
+  <tabstop>display_comboBox</tabstop>
   <tabstop>output_lineEdit</tabstop>
   <tabstop>output_pushButton</tabstop>
   <tabstop>label_lineEdit</tabstop>

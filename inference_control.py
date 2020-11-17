@@ -20,6 +20,8 @@ class inference_control(QtGui.QMainWindow):
         self.fp16 = 'no'
         self.replace = 'no'
         self.verbose = 'no'
+        self.resize_inter = 0
+        self.display_option = 1
         self.runningState = False
         self.initUI()
 
@@ -57,6 +59,7 @@ class inference_control(QtGui.QMainWindow):
         self.close_pushButton.setStyleSheet(
             "color: white; background-color: darkRed")
         self.readSetupFile()
+        self.display_comboBox.setCurrentIndex(1)
         self.show()
 
     def browseFile(self):
@@ -115,12 +118,16 @@ class inference_control(QtGui.QMainWindow):
             self.verbose_checkBox.setEnabled(True)
             self.file_pushButton.setEnabled(True)
             self.format_comboBox.setEnabled(True)
+            self.resize_comboBox.setEnabled(True)
+            self.display_comboBox.setEnabled(True)
             self.output_pushButton.setEnabled(True)
             self.label_pushButton.setEnabled(True)
             self.image_pushButton.setEnabled(True)
             self.val_pushButton.setEnabled(True)
             self.hier_pushButton.setEnabled(True)
             self.format_comboBox.setCurrentIndex(0)
+            self.resize_comboBox.setCurrentIndex(0)
+            self.display_comboBox.setCurrentIndex(1)
             self.name_lineEdit.clear()
             self.file_lineEdit.clear()
             self.idims_lineEdit.clear()
@@ -151,6 +158,8 @@ class inference_control(QtGui.QMainWindow):
                         else:
                             format = 2
                         self.format_comboBox.setCurrentIndex(format)
+                        self.resize_comboBox.setCurrentIndex(int(tokens[15]))
+                        self.display_comboBox.setCurrentIndex(1)
                         self.name_lineEdit.setText(tokens[1])
                         self.file_lineEdit.setText(tokens[2])
                         self.idims_lineEdit.setText(tokens[3])
@@ -185,9 +194,11 @@ class inference_control(QtGui.QMainWindow):
                         self.image_pushButton.setEnabled(False)
                         self.val_pushButton.setEnabled(False)
                         self.hier_pushButton.setEnabled(False)
-                        self.verbose_checkBox.setEnabled(False)
+                        self.verbose_checkBox.setEnabled(True)
                         self.file_pushButton.setEnabled(False)
                         self.format_comboBox.setEnabled(False)
+                        self.resize_comboBox.setEnabled(False)
+                        self.display_comboBox.setEnabled(True)
 
     def checkInput(self):
         if not self.file_lineEdit.text().isEmpty() and not self.name_lineEdit.text().isEmpty() \
@@ -202,6 +213,8 @@ class inference_control(QtGui.QMainWindow):
 
     def runConfig(self):
         self.model_format = self.format_comboBox.currentText()
+        self.resize_inter = int(self.resize_comboBox.currentIndex())
+        self.display_option = int(self.display_comboBox.currentIndex())
         self.model_name = self.name_lineEdit.text()
         self.model = self.file_lineEdit.text()
         self.input_dims = '%s' % (self.idims_lineEdit.text())

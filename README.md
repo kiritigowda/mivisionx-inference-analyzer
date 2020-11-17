@@ -64,7 +64,7 @@ MIVisionX provides developers with [docker images](https://hub.docker.com/u/mivi
 ## Usage
 ### Command Line Interface (CLI)
 ````
-usage: python mivisionx_inference_analyzer.py 	[-h] 
+usage: python mivisionx_inference_analyzer.py 	[-h/--help] 
                              	       		--model_format MODEL_FORMAT 
                                        		--model_name MODEL_NAME 
                                        		--model MODEL 
@@ -78,6 +78,8 @@ usage: python mivisionx_inference_analyzer.py 	[-h]
                                        		[--add ADD] 
                                        		[--multiply MULTIPLY]
 				       		[--fp16 FP16]
+						[--resize_option RESIZE_OPTION]
+						[--display_option DISPLAY_OPTION]
                                        		[--replace REPLACE] 
                                        		[--verbose VERBOSE]
 
@@ -99,10 +101,31 @@ usage: python mivisionx_inference_analyzer.py 	[-h]
   --add                 input preprocessing factor      [optional - default:[0,0,0]]
   --multiply            input preprocessing factor      [optional - default:[1,1,1]]
   --fp16                quantize model to FP16 		     [optional - default:no]
+  --resize_option       image resize interpolation [optional - default:0 range[0-5]]
+  --display_option      application display option [optional - default:1 range[0-2]]
   --replace             replace/overwrite model              [optional - default:no]
   --verbose             verbose                              [optional - default:no]
 
 ```
+#### Input Image Resize Interpolation Options
+```
+0: INTER_LINEAR 	- Default CV Resize Interpolation
+1: INTER_NEAREST 	– a nearest-neighbor interpolation
+2: INTER_LINEAR 	– a bilinear interpolation (used by default)
+3: INTER_AREA 		– a resampling using pixel area relation. 
+			  It may be a preferred method for image decimation, 
+			  as it gives moire’-free results. But when the image is zoomed, 
+			  it is similar to the INTER_NEAREST method.
+4: INTER_CUBIC 		– a bicubic interpolation over 4×4 pixel neighborhood
+5: INTER_LANCZOS4 	– a Lanczos interpolation over 8×8 pixel neighborhood
+```
+#### Display Option
+```
+0: OFF 	- Application Display Turn Off
+1: MIN 	– Display Progress Window
+2: ALL 	– Display Input Image, Image Results, & Progress Window
+```
+
 ### Graphical User Interface (GUI)
 ````
 usage: python mivisionx_inference_analyzer.py
