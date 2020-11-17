@@ -158,7 +158,7 @@ class inference_control(QtGui.QMainWindow):
                         else:
                             format = 2
                         self.format_comboBox.setCurrentIndex(format)
-                        self.resize_comboBox.setCurrentIndex(0)
+                        self.resize_comboBox.setCurrentIndex(int(tokens[15]))
                         self.display_comboBox.setCurrentIndex(1)
                         self.name_lineEdit.setText(tokens[1])
                         self.file_lineEdit.setText(tokens[2])
@@ -197,7 +197,7 @@ class inference_control(QtGui.QMainWindow):
                         self.verbose_checkBox.setEnabled(True)
                         self.file_pushButton.setEnabled(False)
                         self.format_comboBox.setEnabled(False)
-                        self.resize_comboBox.setEnabled(True)
+                        self.resize_comboBox.setEnabled(False)
                         self.display_comboBox.setEnabled(True)
 
     def checkInput(self):

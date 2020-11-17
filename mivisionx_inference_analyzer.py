@@ -338,11 +338,11 @@ if __name__ == '__main__':
         print("\nMIVisionX Inference Analyzer Created\n")
         os.system('(cd ; mkdir .mivisionx-inference-analyzer)')
 
-    # Setup Text File for Demo
+    # Setup Text File
     if (not os.path.isfile(analyzerDir + "/setupFile.txt")):
         f = open(analyzerDir + "/setupFile.txt", "w")
         f.write(modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' +
-                imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose)
+                imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose + ';' + str(resize_inter))
         f.close()
     else:
         count = len(open(analyzerDir + "/setupFile.txt").readlines())
@@ -355,7 +355,7 @@ if __name__ == '__main__':
                 if modelName not in modelList:
                     f = open(analyzerDir + "/setupFile.txt", "a")
                     f.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir + ';' +
-                            imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose)
+                            imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose + ';' + str(resize_inter))
                     f.close()
         else:
             with open(analyzerDir + "/setupFile.txt", "r") as fin:
@@ -368,7 +368,7 @@ if __name__ == '__main__':
                 fout.writelines(data[1:])
             with open(analyzerDir + "/setupFile.txt", "a") as fappend:
                 fappend.write("\n" + modelFormat + ';' + modelName + ';' + modelLocation + ';' + modelInputDims + ';' + modelOutputDims + ';' + label + ';' + outputDir + ';' + imageDir +
-                              ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose)
+                              ';' + imageVal + ';' + hierarchy + ';' + str(Ax).strip('[]').replace(" ", "") + ';' + str(Mx).strip('[]').replace(" ", "") + ';' + fp16 + ';' + replaceModel + ';' + verbose + ';' + str(resize_inter))
                 fappend.close()
 
     # Compile Model and generate python .so files
