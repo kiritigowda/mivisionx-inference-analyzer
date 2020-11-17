@@ -427,9 +427,9 @@ if __name__ == '__main__':
         windowResult = "MIVisionX Inference Analyzer - Results"
         cv2.namedWindow(windowInput, cv2.WINDOW_GUI_EXPANDED)
         cv2.resizeWindow(windowInput, 800, 800)
-    elif(display_option >= 1):
+    if(display_option >= 1):
         windowProgress = "MIVisionX Inference Analyzer - Progress"
-    else:
+    if(display_option == 0):
         print("\nINFO: Display Option set to 0 - Display OFF\n")
 
     # create inference classifier
